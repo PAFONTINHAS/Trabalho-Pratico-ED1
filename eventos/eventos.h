@@ -1,6 +1,7 @@
 #ifndef EVENTOS_H
 #define EVENTOS_H
 #include "lista-participantes/lista.h"
+#include <stdbool.h>
 
 // ESTRUTURA DE DATA E HORA PARA CADA EVENTO
 typedef struct{
@@ -34,3 +35,9 @@ typedef struct{
     int quantidadeEventos;
 } GerenciadorEventos;
 #endif
+
+
+void inicializarGerenciadorEventos(GerenciadorEventos* ge);
+void cadastrarNovoEvento(GerenciadorEventos* ge, int codigo, const char* nome, DataEvento* data, const char* local);
+bool validarData(DataEvento* data, int dia, int mes, int ano);
+bool validarHorario(DataEvento* data, int hora, int minuto);
