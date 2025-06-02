@@ -8,3 +8,5 @@ typedef struct {
 } Participante;
 
 #endif
+
+void inserir_participante(lista)
