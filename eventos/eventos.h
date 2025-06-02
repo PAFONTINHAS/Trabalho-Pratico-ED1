@@ -34,3 +34,14 @@ typedef struct{
     int quantidadeEventos;
 } GerenciadorEventos;
 #endif
+
+void inicializarGerenciadorEventos(GerenciadorEventos* ge);
+void cadastrarNovoEvento(GerenciadorEventos* ge, int codigo, const char* nome, DataEvento* data, const char* local);
+bool validarData(DataEvento* data, int dia, int mes, int ano);
+bool validarHorario(DataEvento* data, int hora, int minuto);
+bool valiadarEvento(GerenciadorEventos* ge, int codigoEvento);
+bool buscarEvento(GerenciadorEventos* ge, int codigoEvento);
+
+
+// buscarEventosPorData()
+// buscarEventosPorLocal()

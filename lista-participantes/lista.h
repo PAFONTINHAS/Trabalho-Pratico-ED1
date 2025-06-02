@@ -16,4 +16,7 @@ typedef struct{
     int quantidade;
 } ListaParticipantes; // Controla UMA lista de participantes para UM evento
 
+void inicializarLista(ListaParticipantes* lista);
+ListaParticipantes selecionarLista(ListaParticipantes* lista, int codigoEvento);
+
 #endif
