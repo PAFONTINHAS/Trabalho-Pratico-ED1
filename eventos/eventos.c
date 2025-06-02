@@ -338,14 +338,17 @@ void destruirListaEventos(GerenciadorEventos* listaEventos){
         proximo = atual->proximo;
 
         if(atual->evento != NULL){
-            // CHAMAR A FUNÇÃO DE LIBERAR LISTA DE PARITICIPANTES DEPOIS
+            // LIBERA A LISTA DE INSCRITOS NO EVENTO
+            liberarListaParticipantes(&(atual->evento->inscritos));
+
+            // LIBERA O EVENTO
             free(atual->evento);
         }
 
         // LIBERA O NÓ DO EVENTO
         free(atual);
 
-        // ARMAZENA O NÓ DE EVENTO
+        // ARMAZENA O PRÓXIMO NÓ DE EVENTO
         atual = proximo;
 
     }
