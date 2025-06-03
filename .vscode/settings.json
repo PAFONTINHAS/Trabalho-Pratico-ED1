@@ -2,6 +2,8 @@
     "files.associations": {
         "eventos.h": "c",
         "lista.h": "c",
-        "time.h": "c"
+        "time.h": "c",
+        "participantes.h": "c",
+        "stdbool.h": "c"
     }
 }
