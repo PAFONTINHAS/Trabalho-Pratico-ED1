@@ -2,6 +2,8 @@
 #define PARTICIPANTES_H
 
 #include <stdbool.h>
+#include "lista.h"
+#include "eventos.h"
 
 // ESTRUTURA DOS PARTICIPANTES
 typedef struct {
@@ -11,9 +13,9 @@ typedef struct {
 } Participante;
 
 
-bool buscarParticipante(char RA);
-bool inscreverParticipantes(ListaParticipantes* lista, Participante* participante);
-bool removerParticipantes(ListaParticipantes* lista, char RA);
-void emitirRelatorioIndividual(char RA, GerenciadorEventos* ge); // todos os eventos que o participante se inscreveu
+// bool buscarParticipante(char RA);
+// bool inscreverParticipantes(ListaParticipantes* lista, Participante* participante);
+// bool removerParticipantes(ListaParticipantes* lista, char RA);
+// void emitirRelatorioIndividual(char RA, GerenciadorEventos* ge); // todos os eventos que o participante se inscreveu
 
 #endif

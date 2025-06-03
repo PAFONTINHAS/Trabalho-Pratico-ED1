@@ -1,7 +1,9 @@
 #ifndef LISTA_PARTICIPANTES_H
 #define LISTA_PARTICIPANTES_H
-#include "participantes/participantes.h"
-#include "eventos/eventos.h"
+#include "eventos.h"
+#include "participantes.h"
+// #include "../Trabalho-Pratico-ED1/eventos/eventos.h"
+// #include "../Trabalho-Pratico-ED1/participantes/participantes.h"
 
 // NÓ QUE LIGA TODOS OS PARTICIPANTES A UMA SÓ LISTA (LISTA DINÂMICA)
 typedef struct NodeParticipante
@@ -19,7 +21,8 @@ typedef struct{
 
 void inicializarLista(ListaParticipantes* lista);
 ListaParticipantes* selecionarLista(ListaParticipantes* lista, int codigoEvento);
-void liberarListaParticipantes(ListaParticipantes* lista);
+void imprimirLista(ListaParticipantes* lista, int codigoEvento, GerenciadorEventos* listaEventos);
+// void apagarListaParticipantes(ListaParticipantes* lista);
 
 // aqui não possuímos uma lista que possui várias listas de eventos, e sim uma lista para cada evento
 // então ao liberar a lista de participantes, quer dizer que estamos liberando a lista de participantes
