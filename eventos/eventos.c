@@ -155,7 +155,7 @@ bool ehAnoBissexto(int ano){
     return ano % 4 == 0;
 }
 
-void buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
+Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     // VERIFICA SE A LISTA POSSUI CONTEÚDOS
     if(listaEventos == NULL){
         perror("Lista de eventos vazia");
