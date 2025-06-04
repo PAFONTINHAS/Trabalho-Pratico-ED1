@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include <stdbool.h>
 #include "eventos.h"
 // #include "lista.h"
 // #include "../Trabalho-Pratico-ED1/lista-participantes/lista.h"
 
-// #include "lista-participantes/lista.h"
 
 GerenciadorEventos* inicializarGerenciadorEventos(){
 
@@ -161,7 +159,7 @@ bool ehAnoBissexto(int ano){
 Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     // VERIFICA SE A LISTA POSSUI CONTEÚDOS
     if(listaEventos == NULL){
-        perror("Lista de eventos vazia");
+        perror("\nLista de eventos vazia");
         return NULL;
     }
 
@@ -175,7 +173,7 @@ Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
 
     // AVISA QUE O EVENTO NÃO FOI ENCONTRADO
     if(atual == NULL){
-        printf("Evento não encontrado");
+        printf("\nEvento de codigo %d nao encontrado", codigoEvento);
         return NULL;
     }
 
@@ -183,11 +181,11 @@ Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     DataEvento data = atual->evento->dataEvento;
 
     // MOSTRA O EVENTO NA TELA
-    printf("Codigo: %d", atual->evento->codigo);
+    printf("\nCodigo: %d", atual->evento->codigo);
     printf("\nNome do evento: %s", atual->evento->nome);
     printf("\nLocal: %s", atual->evento->localEvento);
     printf( "\nData: %02d/%02d/%d às %02d:%02d.", data.dia, data.mes, data.ano, data.hora, data.minuto);
-    printf("\n----------------------------\n");
+    printf("\n-------------------------\n");
 
     Evento* evento = atual->evento;
     return evento;
@@ -288,13 +286,13 @@ bool cancelarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
 
     // AVISA QUE O EVENTO NÃO FOI ENCONTRADO
     if(atual == NULL){
-        printf("Evento de código %02d não encontrado na lista\n", codigoEvento);
+        printf("\nEvento de código %02d não encontrado na lista\n", codigoEvento);
         return false;
     }
 
     // VERIFICA SE EXISTE UM EVENTO CADASTRADO NAQUELE NÓ
     if(atual->evento == NULL){
-        printf("Erro: Nó da lista encontrado, mas o evento dentro dele é nulo.\n");
+        printf("\nErro: Nó da lista encontrado, mas o evento dentro dele é nulo.\n");
 
         // LIBERA O NÓ MESMO SE NÃO POSSUIR NENHUM EVENTO CADASTRADO
         anterior->proximo = atual->proximo;
@@ -307,11 +305,9 @@ bool cancelarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     const char nomeEvento[100];
     // strcpy(nomeEvento, atual->evento->nome);
 
-    // ATRIBUINDO O NOME AO EVENTO
-    strncpy(atual->evento->nome, nomeEvento, sizeof(atual->evento->nome) - 1);
-    atual->evento->nome[sizeof(atual->evento->nome) - 1] = '\0'; // Garante terminação nula
 
-    printf("Cancelando evento de código %02d (%s)", codigoEvento, nomeEvento);
+
+    printf("\nCancelando evento de código %02d (%s)\n", codigoEvento, atual->evento->nome);
 
     // ARMAZENA O PONTEIRO DO PRÓXIMO EVENTO DEPOIS DO ATUAL NA AUXILIAR
     anterior->proximo = atual->proximo;
@@ -322,7 +318,7 @@ bool cancelarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     free(atual);
 
     listaEventos->quantidadeEventos--;
-    printf("Evento de código %02d cancelado com sucesso", codigoEvento);
+    printf("\nEvento de código %02d cancelado com sucesso\n", codigoEvento);
 
     return true;
 }

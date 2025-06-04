@@ -1,6 +1,5 @@
 #ifndef EVENTOS_H
 #define EVENTOS_H
-// #include "lista-participantes/lista.h"
 #include <stdbool.h>
 #include "eventos.h"
 // #include "lista.h"

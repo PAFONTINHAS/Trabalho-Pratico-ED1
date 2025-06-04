@@ -6,11 +6,6 @@
 
 // #include "participantes.h"
 
-// #include "eventos/eventos.h"
-// #include "participantes/participantes.h"
-// #include "eventos/eventos.h"
-// #include "lista-participantes/lista.h"
-// #include "participantes/participantes.h"
 
 
 /*

@@ -1,10 +1,14 @@
 {
     "files.associations": {
         "eventos.h": "c",
-        "lista.h": "c",
         "time.h": "c",
         "participantes.h": "c",
         "stdbool.h": "c",
+<<<<<<< HEAD
         "unistd.h": "c"
+=======
+        "lista_participantes.h": "c",
+        "stdlib.h": "c"
+>>>>>>> feat-lista_participantes
     }
 }

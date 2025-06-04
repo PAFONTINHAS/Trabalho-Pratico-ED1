@@ -1,9 +1,7 @@
 #ifndef LISTA_PARTICIPANTES_H
 #define LISTA_PARTICIPANTES_H
-#include "eventos.h"
+
 #include "participantes.h"
-// #include "../Trabalho-Pratico-ED1/eventos/eventos.h"
-// #include "../Trabalho-Pratico-ED1/participantes/participantes.h"
 
 // NÓ QUE LIGA TODOS OS PARTICIPANTES A UMA SÓ LISTA (LISTA DINÂMICA)
 typedef struct NodeParticipante
