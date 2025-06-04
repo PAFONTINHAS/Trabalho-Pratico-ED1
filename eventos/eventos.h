@@ -3,7 +3,7 @@
 // #include "lista-participantes/lista.h"
 #include <stdbool.h>
 #include "eventos.h"
-#include "lista.h"
+// #include "lista.h"
 // #include "../Trabalho-Pratico-ED1/eventos/eventos.h"
 // #include "../Trabalho-Pratico-ED1/lista-participantes/lista.h"
 
@@ -19,7 +19,7 @@ typedef struct {
     char nome[100];
     DataEvento dataEvento;
     char localEvento[100];
-    ListaParticipantes* inscritos; // cada evento tem uma ListaParticipantes
+    // ListaParticipantes* inscritos; // cada evento tem uma ListaParticipantes
 } Evento;
 
 

@@ -4,7 +4,7 @@
 #include <time.h>
 #include <stdbool.h>
 #include "eventos.h"
-#include "lista.h"
+// #include "lista.h"
 // #include "../Trabalho-Pratico-ED1/lista-participantes/lista.h"
 
 // #include "lista-participantes/lista.h"
@@ -102,7 +102,7 @@ void cadastrarNovoEvento(GerenciadorEventos* listaEventos, int codigo, const cha
     // ATUALIZANDO A QUANTIDADE DE EVENTOS CADASTRADOS
     listaEventos->quantidadeEventos++;
 
-    printf("Evento %s (codigo %d) cadastrado com sucesso", nome, codigo);
+    printf("\nEvento %s (codigo %d) cadastrado com sucesso", nome, codigo);
 
 
 }
@@ -175,7 +175,7 @@ Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
 
     // AVISA QUE O EVENTO NÃO FOI ENCONTRADO
     if(atual == NULL){
-        perror("Evento não encontrado");
+        printf("Evento não encontrado");
         return NULL;
     }
 
@@ -187,7 +187,7 @@ Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     printf("\nNome do evento: %s", atual->evento->nome);
     printf("\nLocal: %s", atual->evento->localEvento);
     printf( "\nData: %02d/%02d/%d às %02d:%02d.", data.dia, data.mes, data.ano, data.hora, data.minuto);
-    printf("-------------------------\n");
+    printf("\n----------------------------\n");
 
     Evento* evento = atual->evento;
     return evento;

@@ -4,6 +4,7 @@
         "lista.h": "c",
         "time.h": "c",
         "participantes.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "unistd.h": "c"
     }
 }

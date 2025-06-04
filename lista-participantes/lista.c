@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "eventos.h"
-#include "lista.h"
-#include "participantes.h"
+// #include "eventos.h"
+// #include "lista.h"
+// #include "participantes.h"
 // #include "../Trabalho-Pratico-ED1/eventos/eventos.h"
 // #include "../Trabalho-Pratico-ED1/lista-participantes/lista.h"
 // #include "../Trabalho-Pratico-ED1/participantes/participantes.h"
