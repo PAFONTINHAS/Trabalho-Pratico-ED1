@@ -1,14 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "eventos.h"
-#include "lista.h"
-// #include "participantes.h"
+#include "eventos/eventos.h"
+// #include "lista-participantes/lista_participantes.h"
 
-// #include "eventos/eventos.h"
-// #include "participantes/participantes.h"
-// #include "eventos/eventos.h"
-// #include "lista-participantes/lista.h"
-// #include "participantes/participantes.h"
 
 
 /*
@@ -23,7 +17,7 @@ menu:
     8 - cancelar //opcional
 */
 int main(){
-    printf("Início do sistema");
+    printf("\nInício do sistema\n");
 
     // ListaParticipantes* listaParticipantes;
     // Participante* participante;
@@ -32,8 +26,13 @@ int main(){
 
     GerenciadorEventos* listaEvento = inicializarGerenciadorEventos();
     cadastrarNovoEvento(listaEvento, 01, "Festa na casa do seu zé", 12, 06, 2029, 12, 40, "Casa do seu zé");
+    cadastrarNovoEvento(listaEvento, 02, "Festa na casa da maria", 12, 06, 2029, 12, 40, "Casa da Maria");
     evento = buscarEvento(listaEvento, 01);
-    imprimirLista(evento->inscritos, evento->codigo, listaEvento);
+    evento = buscarEvento(listaEvento, 02);
+    cancelarEvento(listaEvento, 02);
+    evento = buscarEvento(listaEvento, 02);
+
+    // imprimirLista(evento->inscritos, evento->codigo, listaEvento);
 
 
 

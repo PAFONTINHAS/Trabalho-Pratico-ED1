@@ -2,8 +2,7 @@
 #define PARTICIPANTES_H
 
 #include <stdbool.h>
-#include "lista.h"
-#include "eventos.h"
+
 
 // ESTRUTURA DOS PARTICIPANTES
 typedef struct {

@@ -1,11 +1,9 @@
 #ifndef EVENTOS_H
 #define EVENTOS_H
-// #include "lista-participantes/lista.h"
 #include <stdbool.h>
-#include "eventos.h"
-#include "lista.h"
-// #include "../Trabalho-Pratico-ED1/eventos/eventos.h"
-// #include "../Trabalho-Pratico-ED1/lista-participantes/lista.h"
+
+// Forward declaration for ListaParticipantes
+typedef struct ListaParticipantes ListaParticipantes;
 
 // ESTRUTURA DE DATA E HORA PARA CADA EVENTO
 typedef struct{
