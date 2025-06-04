@@ -4,41 +4,61 @@
 #include <string.h>
 #include "participantes.h"
 
-bool removerParticipantes(ListaParticipantes* lista, const char* RA) {
-    if (lista == NULL || lista->head == NULL || RA == NULL) {
-        return false; // Lista inválida, vazia ou RA nulo
+//funçao que inscreve participante em evento, feito por Jv
+bool inscreverParticipanteEmEvento(Participante p, int codigoEvento, GerenciadorEventos* ge) {
+    
+    // Buscando o evento pelo código através da função buscarEvento
+    Evento* evento = buscarEvento(ge, codigoEvento);
+    if (evento == NULL) {
+        printf("Evento com código %d não encontrado.\n", codigoEvento);
+        return false;
     }
 
-    NodeParticipante* atual = lista->head;
-    NodeParticipante* anterior = NULL;
-
-    // Percorre a lista para encontrar o participante (**possível troca com buscaParticipante)
-    while (atual != NULL) {
-        if (strcmp(atual->dadosParticipante.ra, RA) == 0) {
-            // Participante encontrado
-            if (anterior == NULL) {
-                // É o primeiro nó da lista
-                lista->head = atual->proximo;
-            } else {
-                // É um nó no meio ou no fim da lista
-                anterior->proximo = atual->proximo;
-            }
-            free(atual); // Libera a memória do nó removido
-            if (lista->quantidade > 0) {
-                lista->quantidade--;
-            }
-            printf("Participante de RA %s removido com sucesso.\n", RA);
-            return true; // Remoção bem-sucedida
+    // Verificando se o participante já está inscrito no evento
+    NodeParticipante* participanteNode = evento->inscritos->head->proximo;
+    while (participanteNode != NULL) {
+        if (strcmp(participanteNode->dadosParticipante.ra, p.ra) == 0) {
+            printf("Participante já inscrito no evento.\n");
+            return false; // retorna false pois o participante já está inscrito
         }
-        // Move para o próximo nó
-        anterior = atual;
-        atual = atual->proximo;
-
-
+        participanteNode = participanteNode->proximo; // avança para o próximo participante
     }
-    return false; // Participante não encontrado
+
+    // Criando novo nó para o participante
+    NodeParticipante* novoParticipante = (NodeParticipante*)malloc(sizeof(NodeParticipante));
+    if (novoParticipante == NULL) {
+        printf("Erro ao alocar memória para novo participante.\n");
+        return false;
+    }
+    
+    // Preenche os dados do participante
+    strcpy(novoParticipante->dadosParticipante.ra, p.ra);
+    strcpy(novoParticipante->dadosParticipante.nome, p.nome);
+    novoParticipante->proximo = NULL;
+
+    // Insere o novo participante na lista de inscritos do evento
+    if (evento->inscritos->head == NULL) {
+        evento->inscritos->head = (NodeParticipante*)malloc(sizeof(NodeParticipante));
+        if (evento->inscritos->head == NULL) {
+            printf("Erro ao alocar memória para a cabeçalho da lista de participantes.\n");
+            free(novoParticipante);
+            return false;
+        }
+        evento->inscritos->head->proximo = novoParticipante;
+    } else {
+        NodeParticipante* ultimo = evento->inscritos->head;
+        while (ultimo->proximo != NULL) {
+            ultimo = ultimo->proximo;
+        }
+        ultimo->proximo = novoParticipante;
+    }
+
+    evento->inscritos->quantidade++;
+    printf("Participante %s (RA: %s) inscrito com sucesso no evento %s (Código: %d).\n", p.nome, p.ra, evento->nome, evento->codigo);
+    return true; // Inscrição de participante foi bem-sucedida          
 }
 
+//FUNÇÃO QUE EMITE RELATÓRIO INDIVIDUAL, FEITO POR Jv
 void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge) {
     // Verifica se o RA e o gerenciador de eventos são válidos
     if (RA == NULL) {
@@ -54,48 +74,48 @@ void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge) {
         return;
     }
 
-    NodeEvento* eventoAtualNode = ge->head;
+    //criando variáveis auxiliares para percorrer a lista de eventos
+    // e verificar se o participante está inscrito em algum evento
+    NodeEvento* eventoAtualNode = ge->head->proximo;
     bool participanteEncontradoEmAlgumEvento = false;
     char nomeParticipante[100] = ""; 
     bool nomeJaImpresso = false;
 
     printf("--- Relatório Individual para RA: %s ---\n", RA);
 
-    if (ge->head == NULL) {
+    if (ge->head->proximo == NULL) { // Verifica se a lista de eventos está vazia
         printf("Nenhum evento cadastrado no sistema.\n");
     }
 
     while (eventoAtualNode != NULL) {
-        if (eventoAtualNode->evento != NULL) {
-            // Verifica se o participante está inscrito neste evento
-            NodeParticipante* participanteNode = eventoAtualNode->evento->inscritos.head;
+        if (eventoAtualNode->evento != NULL && eventoAtualNode->evento->inscritos != NULL) {
+            NodeParticipante* participanteNode = eventoAtualNode->evento->inscritos->head->proximo; // Inicia do primeiro participante da lista de inscritos
+            // Percorre a lista de participantes inscritos no evento atual
             while (participanteNode != NULL) {
                 if (strcmp(participanteNode->dadosParticipante.ra, RA) == 0) {
-                    // Participante encontrado neste evento
-                    if (!nomeJaImpresso) {                        
+                    if (!nomeJaImpresso) {      
+                        strncpy(nomeParticipante, participanteNode->dadosParticipante.nome, sizeof(nomeParticipante) - 1); // copia o nome do participante
+                        nomeParticipante[sizeof(nomeParticipante) - 1] = '\0'; 
                         printf("Participante: %s\n", nomeParticipante);
                         printf("Eventos inscritos:\n");
                         nomeJaImpresso = true;
                     }
-                    
-                    printf("  - Evento: %s (Código: %d)\n", eventoAtualNode->evento->nome, eventoAtualNode->evento->codigo);           
+                    printf("- Evento: %s (Código: %d)\n", eventoAtualNode->evento->nome, eventoAtualNode->evento->codigo);           
                     participanteEncontradoEmAlgumEvento = true;
-                    break; // Participante encontrado neste evento, pode ir para o próximo evento
+                    break; 
                 }
-                participanteNode = participanteNode->proximo;
+                participanteNode = participanteNode->proximo; // Move para o próximo participante
             }
         }
-        eventoAtualNode = eventoAtualNode->proximo;
+        eventoAtualNode = eventoAtualNode->proximo; // Move para o próximo evento
     }
 
     if (!participanteEncontradoEmAlgumEvento) {
         if (!nomeJaImpresso) { // Se o nome não foi impresso, significa que o RA não foi encontrado em nenhum evento.
              printf("Participante de RA %s não está inscrito em nenhum evento ou não foi encontrado.\n", RA);
-        } else { // Esse participante foi encontrado, mas não está inscrito em nenhum evento.
-            printf("Participante %s (RA: %s) encontrado, mas não parece estar inscrito em nenhum evento .\n", nomeParticipante, RA);
-        }
+        } 
     }
-    printf("--- Fim do Relatório ---\n");
+    
 }
 
 //--------------FUNÇÃO QUE BUSCA PARTICIPANTE POR RA, FEITO POR ISABELLA VICENTE --------------------
