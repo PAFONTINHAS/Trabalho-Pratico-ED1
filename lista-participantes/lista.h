@@ -1,6 +1,7 @@
 #ifndef LISTA_PARTICIPANTES_H
 #define LISTA_PARTICIPANTES_H
 #include "participantes/participantes.h"
+#include "eventos/eventos.h"
 
 // NÓ QUE LIGA TODOS OS PARTICIPANTES A UMA SÓ LISTA (LISTA DINÂMICA)
 typedef struct NodeParticipante
@@ -16,4 +17,7 @@ typedef struct{
     int quantidade;
 } ListaParticipantes; // Controla UMA lista de participantes para UM evento
 
+//Clarissa, função deletar lista
+ void deletarLista(ListaParticipantes*lista);
+ 
 #endif
