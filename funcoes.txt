@@ -1,0 +1,41 @@
+menu:
+1 - criar evento cadastrarNovoEvento()
+2 - inscrever participante inscreverParticipante()
+3 - listar todos os participantes confirmados de todos os evento imprimirLista(evento)
+4 - remover participante bool removerParticipante(evento, participante)
+5 - emitir relatorio, emitirRelatorio(ra,)->buscarparticipante
+6 - emitir lista de presença de todos os participantes de um evento específico listaPresencaDeEvento()
+7 - finalizar evento //opcional
+8 - cancelar //opcional
+
+// FEATURE EVENTOS
+void inicializarGerenciadorEventos(GerenciadorEventos* ge);
+void cadastrarNovoEvento(GerenciadorEventos* ge, int codigo, const char* nome, DataEvento* data, const char* local);
+bool validarData(DataEvento* data, int dia, int mes, int ano);
+bool validarHorario(DataEvento* data, int hora, int minuto);
+bool valiadarEvento(GerenciadorEventos* ge, int codigoEvento);
+bool buscarEvento(GerenciadorEventos* ge, int codigoEvento);
+
+buscarEventosPorData()
+buscarEventosPorLocal()
+
+// FEATURE LISTA_PARTICIPANTES
+
+void inicializarLista(ListaParticipantes* lista);
+ListaParticipantes selecionarLista(ListaParticipantes* lista, int codigoEvento);
+
+
+
+// FEATURE PARTICIPANTES
+
+bool buscarParticipante(char RA);
+bool inscreverParticipantes(ListaParticipantes* lista, Participante* participante);
+bool removerParticipantes(ListaParticipantes* lista, char RA);
+void emitirRelatorioIndividual(char RA, GerenciadorEventos* ge) // todos os eventos que o participante se inscreveu
+
+
+CriarEventos(),
+BuscarEvento(),
+ListarEventos(),
+FinalizarEvento(), VerEventosQueJaOcorreram(), CancelarEvento(), AlterarEvento()
+
