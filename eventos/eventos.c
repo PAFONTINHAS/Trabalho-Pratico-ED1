@@ -83,7 +83,8 @@ void cadastrarNovoEvento(GerenciadorEventos* listaEventos, int codigo, const cha
     // INICIALIZANDO A LISTA DE INSCRITOS PARA O EVENTO
     // evento->inscritos->head = NULL;
     // evento->inscritos->quantidade = 0;
-
+    evento->inscritos = inicializarLista(evento->inscritos, evento->codigo);
+    
     // ALOCANDO UM ESPAÇO NA MEMÓRIA PARA O NÓ DE EVENTOS
     NodeEvento* node = (NodeEvento*) malloc(sizeof(NodeEvento));
 
