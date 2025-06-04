@@ -13,9 +13,9 @@ typedef struct {
 } Participante;
 
 
-bool buscarParticipante(char RA);
+NodeParticipante* buscarParticipante(ListaParticipantes* lista, const char* raProcurado);
 bool inscreverParticipantes(ListaParticipantes* lista, Participante* participante);
 bool removerParticipantes(ListaParticipantes* lista, const char* ra);
-void emitirRelatorioIndividual(const char RA, GerenciadorEventos* ge); // todos os eventos que o participante se inscreveu
+void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge); // todos os eventos que o participante se inscreveu
 
 #endif

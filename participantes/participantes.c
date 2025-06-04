@@ -56,7 +56,7 @@ void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge) {
 
     NodeEvento* eventoAtualNode = ge->head;
     bool participanteEncontradoEmAlgumEvento = false;
-    char nomeParticipante[100] = ""; 
+    char nomeParticipante[100] = "";
     bool nomeJaImpresso = false;
 
     printf("--- Relatório Individual para RA: %s ---\n", RA);
@@ -72,13 +72,13 @@ void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge) {
             while (participanteNode != NULL) {
                 if (strcmp(participanteNode->dadosParticipante.ra, RA) == 0) {
                     // Participante encontrado neste evento
-                    if (!nomeJaImpresso) {                        
+                    if (!nomeJaImpresso) {
                         printf("Participante: %s\n", nomeParticipante);
                         printf("Eventos inscritos:\n");
                         nomeJaImpresso = true;
                     }
-                    
-                    printf("  - Evento: %s (Código: %d)\n", eventoAtualNode->evento->nome, eventoAtualNode->evento->codigo);           
+
+                    printf("  - Evento: %s (Código: %d)\n", eventoAtualNode->evento->nome, eventoAtualNode->evento->codigo);
                     participanteEncontradoEmAlgumEvento = true;
                     break; // Participante encontrado neste evento, pode ir para o próximo evento
                 }
@@ -102,11 +102,11 @@ void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge) {
 NodeParticipante* buscarParticipante(ListaParticipantes* lista, const char* raProcurado){
     //bool para retornar true se deu certo a remoção e false se não
     //parâmetros serão a lista onde procuro e o que procuro, declarando-os
-    NodeParticipante* atual=lista->head->proximo; 
+    NodeParticipante* atual=lista->head->proximo;
     //declaro atual do tipo NodeParticipante dizendo para ele começar em uma valor real do começo da lista
 
     while(atual!=NULL && strcmp(atual->dadosParticipante.ra, raProcurado)!=0){
-    //atual vai andar e passar o dado para anterior até achar o que quer 
+    //atual vai andar e passar o dado para anterior até achar o que quer
         atual=atual->proximo;
         //atual anda para o proximo elemento, e ler o dado
     }
@@ -116,31 +116,31 @@ NodeParticipante* buscarParticipante(ListaParticipantes* lista, const char* raPr
     return atual;
 }
 
-//1. declara as variaveis q eu vou usar 
-//2. vai procurar enquanto o que 
-//3. como vai andar na lista 
-//4. se nao encontrar, vai fazer o que 
+//1. declara as variaveis q eu vou usar
+//2. vai procurar enquanto o que
+//3. como vai andar na lista
+//4. se nao encontrar, vai fazer o que
 //5. se encontrar, vai fazer o que
 
 //--------------FUNÇÃO QUE REMOVE PARTICIPANTE, FEITO POR ISABELLA VICENTE --------------------
 bool removerParticipantes(ListaParticipantes* lista, const char* raProcurado) {
 //procura e retorna true se achar e remover, e false se não achar
-    NodeParticipante* atual=lista->head->proximo; 
+    NodeParticipante* atual=lista->head->proximo;
     //declaro atual do tipo NodeParticipante dizendo para ele começar em uma valor real do começo da lista
     NodeParticipante* anterior= lista->head;
-    //declaro anterior do tipo NodeParticipante dizendo para ele começar em 1 posicao antes do valor real 
+    //declaro anterior do tipo NodeParticipante dizendo para ele começar em 1 posicao antes do valor real
     //do começo da lista, mas como nao tem pq nao começou a andar ainda, é null
     NodeParticipante* raEncontrado = buscarParticipante(lista, raProcurado);
     //declara raEcontrado do tipo ListaParticipantes aplicando buscarParticipante
     while(atual!=NULL && strcmp(atual->dadosParticipante.ra, raProcurado)!=0){
-    //atual vai andar e passar o dado para anterior até achar o que quer 
-        anterior=atual; 
-        //atual passa o dado que ele acabou de ver para anterior, salvando o dado 
+    //atual vai andar e passar o dado para anterior até achar o que quer
+        anterior=atual;
+        //atual passa o dado que ele acabou de ver para anterior, salvando o dado
         atual=atual->proximo;
         //atual anda para o proximo elemento, e ler o dado
     }
     if (atual == NULL) {
-    return false; // Participant not found, nothing to remove.
+        return false; // Participant not found, nothing to remove.
     }
     anterior->proximo=atual->proximo;
     //atual vai dizer quem é o proximo para o anterior, para ele nao ficar perdido
@@ -148,7 +148,7 @@ bool removerParticipantes(ListaParticipantes* lista, const char* raProcurado) {
     //libera ra da memoria
     return true;
     //retorna que deu certo
-    
+
 }
 
 //lista=head,1,2,3,4,5,6,7
