@@ -1,6 +1,6 @@
 #ifndef PARTICIPANTES_H
 #define PARTICIPANTES_H
-
+#include "./lista-participantes/lista.h"
 #include <stdbool.h>
 #include "lista.h"
 #include "eventos.h"
@@ -13,9 +13,9 @@ typedef struct {
 } Participante;
 
 
-// bool buscarParticipante(char RA);
-// bool inscreverParticipantes(ListaParticipantes* lista, Participante* participante);
-bool removerParticipantes(ListaParticipantes* lista, const char* RA);
-void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge); // todos os eventos que o participante se inscreveu
+bool buscarParticipante(char RA);
+bool inscreverParticipantes(ListaParticipantes* lista, Participante* participante);
+bool removerParticipantes(ListaParticipantes* lista, const char* ra);
+void emitirRelatorioIndividual(const char RA, GerenciadorEventos* ge); // todos os eventos que o participante se inscreveu
 
 #endif
