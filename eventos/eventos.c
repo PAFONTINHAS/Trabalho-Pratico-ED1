@@ -173,7 +173,7 @@ Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
 
     // AVISA QUE O EVENTO NÃO FOI ENCONTRADO
     if(atual == NULL){
-        printf("\nEvento de codigo %d nao encontrado", codigoEvento);
+        printf("\nEvento de codigo %d nao encontrado\n", codigoEvento);
         return NULL;
     }
 
@@ -323,6 +323,37 @@ bool cancelarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     return true;
 }
 
+
+void mostrarTodosOsEventos(GerenciadorEventos* listaEventos){
+    if(listaEventos == NULL){
+        printf("Lista de Eventos atualmente vazia");
+        return;
+    }
+
+    NodeEvento* atual = listaEventos->head->proximo;
+    Evento* evento;
+    DataEvento data;
+
+    while(atual != NULL){
+        evento = atual->evento;
+        data = evento->dataEvento;
+
+        printf("\n/---------------código:-%d-------------------/\n", evento->codigo);
+        printf("\nNome do evento: %s", evento->nome);
+        printf("\nData do evento: %02d/%02d/%04d às %02d:%02d", data.dia, data.mes, data.ano, data.hora, data.minuto );
+        printf("\nLocal do evento: %s", evento->localEvento);
+        printf("\n/--------------------------------------------/");
+
+        atual = atual->proximo;
+    }
+
+    if(atual == NULL){
+        printf("Lista de Eventos vazia");
+        return;
+    }
+
+    return;
+}
 
 void destruirListaEventos(GerenciadorEventos* listaEventos){
  // VERIFICA SE A LISTA POSSUI CONTEÚDOS

@@ -1,13 +1,12 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include "estruturas.h"
 #include "eventos/eventos.h"
 #include "participantes/participantes.h"
 #include "lista-participantes/lista_participantes.h"
-#include "estruturas.h"
-
-#include <ctype.h>
 /*
 menu:
     1 - criar evento cadastrarNovoEvento()
@@ -21,6 +20,8 @@ menu:
 */
 
 // ANTES DE CRIAR A FUNÇÃO, MENCIONE ELA AQUI.
+void verListaParticipantes(GerenciadorEventos* listaEventos);
+void removerParticipante(GerenciadorEventos* listaEventos);
 void criarEvento(GerenciadorEventos* listaEventos);
 void mostrarEventoEspecifico(GerenciadorEventos* listaEventos);
 void inserirParticipante(GerenciadorEventos* listaEventos);
@@ -35,6 +36,7 @@ void menuEscolhas(){
     printf("\n7. Inserir participantes em um evento"); // Incompleto (?)
     printf("\n8. Emitir relatório de participacao individual"); // Incompleto (?)
     printf("\n9. Emitir relatório de presenca"); // Incompleto
+    printf("\n0. Sair");
 }
 
 int main(){
@@ -74,12 +76,14 @@ int main(){
             case 3:
                 mostrarEventoEspecifico(listaEventos);
             break;
-            // case 4:
-            // break;
+            case 4:
+                verListaParticipantes(listaEventos);
+            break;
             // case 5:
             // break;
-            // case 6:
-            // break;
+            case 6:
+                removerParticipante(listaEventos);
+            break;
             case 7:
                 inserirParticipante(listaEventos);
             break;
@@ -184,7 +188,7 @@ void mostrarEventoEspecifico(GerenciadorEventos* listaEventos){
     if(respostaOpcao == 'S' || respostaOpcao == 's'){
         imprimirLista(evento);
         // FUNÇÃO DE BUSCAR A LISTA DE PARTICIPANTES(imprimirListaParticipante)
-        // PARAMETROS: ListaParticipantes* lista, int codigoEvento, GerenciadorEvenos* listaEventos
+        // PARAMETROS: ListaParticipantes* lista, int codigoEvento, GerenciadorEventos* listaEventos
 
     }
 
@@ -192,6 +196,46 @@ void mostrarEventoEspecifico(GerenciadorEventos* listaEventos){
     getchar();
 
     return;
+}
+
+void verListaParticipantes(GerenciadorEventos* listaEventos){
+    int codigo;
+    
+    printf("Digite o código do evento: ");
+    scanf("%d", &codigo);
+    
+    Evento* evento = buscarEvento(listaEventos, codigo);
+    
+    if (evento != NULL){
+        imprimirLista(evento);
+    }
+    
+}
+
+void removerParticipante(GerenciadorEventos* listaEventos){
+    int codigo;
+    char ra[20];
+
+    printf("Digite o código do evento: ");
+    scanf("%d", &codigo);
+    getchar();
+
+    Evento* evento = buscarEvento(listaEventos, codigo);
+
+    if(evento != NULL){
+
+        printf("Digite o RA do participante: ");
+        fgets(ra, sizeof(ra), stdin);
+        ra[strcspn(ra, "\n")] = 0; // Remove o \n
+
+        ListaParticipantes* lista = evento->inscritos;
+
+        bool removido = removerParticipantes(lista, ra);
+    }
+
+    printf("\nVoltando para a página inicial...\n");
+    Sleep(2000);
+    printf("\n/-----------------------------------------------------------------------------/\n");
 }
 
 void inserirParticipante(GerenciadorEventos* listaEventos){
@@ -228,3 +272,4 @@ void inserirParticipante(GerenciadorEventos* listaEventos){
     getchar();
     return;
 }
+

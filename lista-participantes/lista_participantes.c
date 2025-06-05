@@ -6,7 +6,7 @@
 #include "lista_participantes.h"
 #include "../eventos/eventos.h"
 
-//Procedimento para inicializar lista de participantes
+//Procedimento para inicializar lista de participantes, feito por Clarissa Morita
 ListaParticipantes* inicializarLista(){
     ListaParticipantes* lista = (ListaParticipantes*) malloc(sizeof(ListaParticipantes));
     NodeParticipante* inicio = (NodeParticipante*) malloc(sizeof(NodeParticipante));
@@ -18,12 +18,14 @@ ListaParticipantes* inicializarLista(){
     return lista;
 }
 
+//Função para buscar e imprimir lista de participantes, feita por Giovanna D 
 void imprimirLista(Evento* evento){
     // Evento* evento = buscarEvento(listaEventos, codigoEvento);
     ListaParticipantes* listaEvento = evento->inscritos;
 
     if(evento->inscritos->head->proximo == NULL){
-        printf("Lista de inscritos vazia!");
+        printf("\nLista de inscritos vazia!\n");
+        printf("\n----------------------------------\n");
         return;
     }
 
