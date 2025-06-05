@@ -20,6 +20,7 @@ menu:
 */
 
 // ANTES DE CRIAR A FUNÇÃO, MENCIONE ELA AQUI.
+void verListaParticipantes(GerenciadorEventos* listaEventos);
 void removerParticipante(GerenciadorEventos* listaEventos);
 void criarEvento(GerenciadorEventos* listaEventos);
 void mostrarEventoEspecifico(GerenciadorEventos* listaEventos);
@@ -35,6 +36,7 @@ void menuEscolhas(){
     printf("\n7. Inserir participantes em um evento"); // Incompleto (?)
     printf("\n8. Emitir relatório de participacao individual"); // Incompleto (?)
     printf("\n9. Emitir relatório de presenca"); // Incompleto
+    printf("\n0. Sair");
 }
 
 int main(){
@@ -74,8 +76,9 @@ int main(){
             case 3:
                 mostrarEventoEspecifico(listaEventos);
             break;
-            // case 4:
-            // break;
+            case 4:
+                verListaParticipantes(listaEventos);
+            break;
             // case 5:
             // break;
             case 6:
@@ -195,6 +198,20 @@ void mostrarEventoEspecifico(GerenciadorEventos* listaEventos){
     return;
 }
 
+void verListaParticipantes(GerenciadorEventos* listaEventos){
+    int codigo;
+    
+    printf("Digite o código do evento: ");
+    scanf("%d", &codigo);
+    
+    Evento* evento = buscarEvento(listaEventos, codigo);
+    
+    if (evento != NULL){
+        imprimirLista(evento);
+    }
+    
+}
+
 void removerParticipante(GerenciadorEventos* listaEventos){
     int codigo;
     char ra[20];
@@ -255,3 +272,4 @@ void inserirParticipante(GerenciadorEventos* listaEventos){
     getchar();
     return;
 }
+
