@@ -1,168 +1,370 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "participantes.h"
+#include <stdbool.h>
+#include "eventos.h"
 #include "../estruturas.h"
-#include "../eventos/eventos.h"
 #include "../lista-participantes/lista_participantes.h"
 
-//funçao que inscreve participante em evento, feito por Jv
-bool inscreverParticipanteEmEvento(const char* nome, const char* ra, Evento* evento) {
 
-    // // Buscando o evento pelo código através da função buscarEvento
-    // Evento* evento = buscarEvento(ge, codigoEvento);
-    // if (evento == NULL) {
-    //     printf("Evento com código %d não encontrado.\n", codigoEvento);
-    //     return false;
-    // }
 
-    // Verificando se o participante já está inscrito no evento
-    NodeParticipante* participanteNode = evento->inscritos->head->proximo;
-    while (participanteNode != NULL) {
-        if (strcmp(participanteNode->dadosParticipante.ra, ra) == 0) {
-            printf("Participante já inscrito no evento.\n");
-            return false; // retorna false pois o participante já está inscrito
-        }
-        participanteNode = participanteNode->proximo; // avança para o próximo participante
+GerenciadorEventos* inicializarGerenciadorEventos(){
+
+    // ALOCO UM ESPAÇO NA MEMÓRIA PARA A LISTA DE EVENTOS
+    GerenciadorEventos* listaEventos = (GerenciadorEventos*) malloc(sizeof(GerenciadorEventos));
+
+    // VERIFICO SE A LISTA DE EVENTOS FOI CRIADA
+    if(listaEventos == NULL){
+        perror("Falha ao alocar memoria para o objeto GerenciadorEventos");
+        return NULL;
+    };
+
+    // ALOCO UM ESPAÇO DE MEMÓRIA PARA UM NÓ DE EVENTO
+    //E O LINKO À CABEÇA DO GERENCIADOR DE EVENTOS (LISTA COM CABEÇALHO)
+    listaEventos->head = (NodeEvento*) malloc(sizeof(NodeEvento));
+
+    // VERIFICO SE O NÓ FOI ALOCADO CORRETAMENTE
+    if(listaEventos->head == NULL) {
+        free(listaEventos);
+        return NULL;
     }
 
-    // Criando novo nó para o participante
-    NodeParticipante* novoParticipante = (NodeParticipante*)malloc(sizeof(NodeParticipante));
-    if (novoParticipante == NULL) {
-        printf("Erro ao alocar memória para novo participante.\n");
+    // APONTO O PRÓXIMO NÓ COMO NULO
+    listaEventos->head->proximo = NULL;
+
+    // RETORNO A LISTA DE EVENTOS CRIADA
+    return listaEventos;
+
+}
+
+void cadastrarNovoEvento(GerenciadorEventos* listaEventos, int codigo, const char* nome, int dia, int mes, int ano, int hora, int minuto, const char* local){
+
+    // PRIMEIRO ESTOU ALOCANDO UM ESPAÇO NA MEMÓRIA PARA O NOVO EVENTO
+    Evento* evento = (Evento*) malloc(sizeof(Evento));
+
+    // VERIFICANDO SE O ESPAÇO FOI RESERVADO
+    if(evento == NULL) {
+        perror("Falha ao alocar memoria para o objeto Evento");
+        return;
+    };
+
+    // ATRIBUINDO O CÓDIGO AO EVENTO
+    evento->codigo = codigo;
+
+    // ATRIBUINDO O NOME AO EVENTO
+    strncpy(evento->nome, nome, sizeof(evento->nome) - 1);
+    evento->nome[sizeof(evento->nome) - 1] = '\0'; // Garante terminação nula
+
+    // ATRIBUINDO O LOCAL AO EVENTO
+    strncpy(evento->localEvento, local, sizeof(evento->localEvento) - 1);
+    evento->localEvento[sizeof(evento->localEvento) - 1] = '\0'; // Garante terminação nula
+
+    // É FEITA UMA VERIFICAÇÃO PARA A DATA
+    if(!validarData(dia, mes, ano, hora, minuto)){
+        printf("Data e/ou hora do evento são inválidas. Evento não cadastrado");
+        free(evento);
+        return;
+    }
+
+    // ATRIBUINDO A DATA E HORA(VALIDADAS) AO EVENTO
+    evento->dataEvento.dia = dia;
+    evento->dataEvento.mes = mes;
+    evento->dataEvento.ano = ano;
+    evento->dataEvento.hora = hora;
+    evento->dataEvento.minuto = minuto;
+
+    // VERIFICA SE O LOCAL E DATA DO EVENTO SÃO VÁLIDOS
+    if(!validarEvento(listaEventos, evento)){
+        free(evento);
+        return;
+    }
+
+    // INICIALIZANDO A LISTA DE INSCRITOS PARA O EVENTO
+    evento->inscritos = inicializarLista();
+
+    // ALOCANDO UM ESPAÇO NA MEMÓRIA PARA O NÓ DE EVENTOS
+    NodeEvento* node = (NodeEvento*) malloc(sizeof(NodeEvento));
+
+    // VERIFICANDO SE O ESPAÇO FOI RESERVADO
+    if(node == NULL) return;
+
+    // ATRIBUINDO O EVENTO AO NÓ DE EVENTOS
+    node->evento = evento;
+
+    // APONTANDO O PRÓXIMO NÓ DE EVENTOS AO PRIMEIRO NÓ REAL DA LISTA DE EVENTOS
+    node->proximo = listaEventos->head->proximo; // O novo nó aponta para o que era o primeiro evento real
+
+    // ATRIBUINDO O NÓ DE EVENTOS À LISTA DE EVENTOS
+    listaEventos->head->proximo = node; // O nó sentinela agora aponta para o novo nó como o primeiro evento real
+
+    // ATUALIZANDO A QUANTIDADE DE EVENTOS CADASTRADOS
+    listaEventos->quantidadeEventos++;
+
+    printf("\nEvento '%s'(código: %d) cadastrado com sucesso", nome, codigo);
+
+
+}
+
+
+bool validarData(int dia, int mes, int ano, int hora, int minuto){
+
+    // VERIFICAÇÕES ÓBIVIAS SOBRE AS DATAS
+    if(mes < 1 || mes > 12){
         return false;
     }
 
-    // Preenche os dados do participante
-    strcpy(novoParticipante->dadosParticipante.ra, ra);
-    strcpy(novoParticipante->dadosParticipante.nome, nome);
-    novoParticipante->proximo = NULL;
+    if(hora < 0 || hora > 23){
+        return false;
+    }
 
-    // Insere o novo participante na lista de inscritos do evento
-    if (evento->inscritos->head == NULL) {
-        evento->inscritos->head = (NodeParticipante*)malloc(sizeof(NodeParticipante));
-        if (evento->inscritos->head == NULL) {
-            printf("Erro ao alocar memória para a cabeçalho da lista de participantes.\n");
-            free(novoParticipante);
+    if(minuto < 0 || minuto > 59){
+        return false;
+    }
+
+    if(dia < 1){
+        return false;
+    }
+
+    // ELENCA TODOS OS DIAS FINAIS DOS MESES
+    int diasNoMes[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    // ATRIBUI UM DIA A MAIS A FEVEREIRO
+    if(mes == 2 && ehAnoBissexto(ano)){
+        diasNoMes[2] = 29;
+    }
+
+    // VERIFICA SE O DIA É MAIOR QUE O MES RESPECTIVO
+    if(dia > diasNoMes[mes]){
+        return false;
+    }
+
+    return true;
+
+}
+
+bool ehAnoBissexto(int ano){
+    // ANOS NEGATIVOS OU ZEROS NÃO SÃO BISSEXTOS
+    if(ano <= 0) return false;
+
+    // SE UM ANO É DIVISÍVEL POR 400, ELE É BISSEXTO
+    if(ano % 400 == 0) return true;
+
+    // SE UM ANO É DIVISIVEL POR 100, MAS NÃO POR 400, ELE NÃO É BISSEXTO
+    if(ano % 100 == 0) return false;
+
+    // SE UM ANO É DIVISÍVEL POR 4, ELE É BISSEXTO
+    return ano % 4 == 0;
+}
+
+Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
+    // VERIFICA SE A LISTA POSSUI CONTEÚDOS
+    if(listaEventos == NULL){
+        perror("\nLista de eventos vazia");
+        return NULL;
+    }
+
+    // PEGA O PRIMEIRO NÓ A PARTIR DO CABEÇALHO
+    NodeEvento* atual = listaEventos->head->proximo;
+
+    // PERCORRE A LISTA DE EVENTOS PARA VER SE ELE EXISTE
+    while(atual != NULL && atual->evento->codigo != codigoEvento){
+        atual = atual->proximo;
+    }
+
+    // AVISA QUE O EVENTO NÃO FOI ENCONTRADO
+    if(atual == NULL){
+        printf("\nEvento de codigo %d nao encontrado\n", codigoEvento);
+        return NULL;
+    }
+
+    // ARMAZENA A DATA DO EVENTO EM UMA STRUCT DATA
+    DataEvento data = atual->evento->dataEvento;
+
+    // MOSTRA O EVENTO NA TELA
+    printf("Codigo: %d", atual->evento->codigo);
+    printf("\nNome do evento: %s", atual->evento->nome);
+    printf("\nLocal: %s", atual->evento->localEvento);
+    printf("\nData: %02d/%02d/%d às %02d:%02d.", data.dia, data.mes, data.ano, data.hora, data.minuto);
+    printf("\n----------------------------------\n");
+
+    Evento* evento = atual->evento;
+    return evento;
+
+}
+
+
+bool validarEvento(GerenciadorEventos* listaEventos, Evento* novoEvento){
+
+    if (listaEventos == NULL || listaEventos->head == NULL) {
+        fprintf(stderr, "Erro: Gerenciador de eventos ou seu cabeçalho não inicializado.\n");
+        return false; // Não é possível validar com uma lista inválida
+    }
+
+    if (novoEvento == NULL) {
+        fprintf(stderr, "Erro: Tentativa de validar um novo evento nulo.\n");
+        return false;
+    }
+
+    // ARMAZENA O PRIMEIRO EVENTO DA LISTA
+    NodeEvento* eventoCadastrado = listaEventos->head->proximo;
+
+    // PERCORRE TODA A LISTA PROCURANDO POR VALORES PARECIDOS
+    while(eventoCadastrado != NULL){
+
+        // VERIFICA SE EXISTE UM EVENTO CADASTRADO NO NÓ ATUAL
+        if(eventoCadastrado->evento == NULL){
+            eventoCadastrado = eventoCadastrado->proximo;
+            continue; // reinicia o loop
+        }
+
+
+        // VERIFICA SE O CÓDIGO DE EVENTO JÁ EXISTE
+        if(eventoCadastrado->evento->codigo == novoEvento->codigo){
+            printf("ERRO: Já existe um evento cadastrado com o código %d  (%s).\n",
+                novoEvento->codigo, eventoCadastrado->evento->nome);
             return false;
         }
-        evento->inscritos->head->proximo = novoParticipante;
-    } else {
-        NodeParticipante* ultimo = evento->inscritos->head;
-        while (ultimo->proximo != NULL) {
-            ultimo = ultimo->proximo;
-        }
-        ultimo->proximo = novoParticipante;
-    }
 
-    evento->inscritos->quantidade++;
-    printf("Participante %s (RA: %s) inscrito com sucesso no evento %s (Código: %d).\n", nome, ra, evento->nome, evento->codigo);
-    return true; // Inscrição de participante foi bem-sucedida
-}
+        // COMPARA OS LOCAIS DOS EVENTOS
+        if(strcmp(eventoCadastrado->evento->localEvento, novoEvento->localEvento) == 0){
 
-//FUNÇÃO QUE EMITE RELATÓRIO INDIVIDUAL, FEITO POR Jv
-void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge) {
-    // Verifica se o RA e o gerenciador de eventos são válidos
-    if (RA == NULL) {
-        printf("Erro: RA do participante não pode ser nulo.\n");
-        return;
-    }
-    if (ge == NULL) {
-        printf("Erro: Gerenciador de eventos não pode ser nulo.\n");
-        return;
-    }
-    if (ge->head == NULL) {
-        printf("Erro: Não há eventos cadastrados no sistema.\n");
-        return;
-    }
+            // ARMAZENA AS DATAS EM UMA VARIÁVEL LOCAL
+            DataEvento dataExistente = eventoCadastrado->evento->dataEvento;
+            DataEvento dataNova = novoEvento->dataEvento;
 
-    //criando variáveis auxiliares para percorrer a lista de eventos
-    // e verificar se o participante está inscrito em algum evento
-    NodeEvento* eventoAtualNode = ge->head->proximo;
-    bool participanteEncontradoEmAlgumEvento = false;
-    char nomeParticipante[100] = "";
-    bool nomeJaImpresso = false;
+            // VERIFICA SE JÁ EXISTE UM EVENTO CADASTRADO NA MESMA DATA E LOCAL
+            if(
+                dataExistente.dia == dataNova.dia &&
+                dataExistente.mes == dataNova.mes &&
+                dataExistente.ano == dataNova.ano &&
+                dataExistente.hora == dataNova.hora &&
+                dataExistente.minuto == dataNova.minuto
+            ){
+                printf("ERRO: Já existe um evento (%s, codigo %d) no local '%s', na data %02d/%02d/%d às %02d:%02d.",
+                    eventoCadastrado->evento->nome,
+                    eventoCadastrado->evento->codigo,
+                    novoEvento->localEvento,
+                    dataNova.dia, dataNova.mes, dataNova.ano,
+                    dataNova.hora, dataNova.minuto
+                );
 
-    printf("--- Relatório Individual para RA: %s ---\n", RA);
-
-    if (ge->head->proximo == NULL) { // Verifica se a lista de eventos está vazia
-        printf("Nenhum evento cadastrado no sistema.\n");
-    }
-
-    while (eventoAtualNode != NULL) {
-        if (eventoAtualNode->evento != NULL && eventoAtualNode->evento->inscritos != NULL) {
-            NodeParticipante* participanteNode = eventoAtualNode->evento->inscritos->head->proximo; // Inicia do primeiro participante da lista de inscritos
-            // Percorre a lista de participantes inscritos no evento atual
-            while (participanteNode != NULL) {
-                if (strcmp(participanteNode->dadosParticipante.ra, RA) == 0) {
-                    if (!nomeJaImpresso) {
-                        strncpy(nomeParticipante, participanteNode->dadosParticipante.nome, sizeof(nomeParticipante) - 1); // copia o nome do participante
-                        nomeParticipante[sizeof(nomeParticipante) - 1] = '\0';
-                        printf("Participante: %s\n", nomeParticipante);
-                        printf("Eventos inscritos:\n");
-                        nomeJaImpresso = true;
-                    }
-                    printf("- Evento: %s (Código: %d)\n", eventoAtualNode->evento->nome, eventoAtualNode->evento->codigo);
-                    participanteEncontradoEmAlgumEvento = true;
-                    break;
-                }
-                participanteNode = participanteNode->proximo; // Move para o próximo participante
+                return false;
             }
         }
-        eventoAtualNode = eventoAtualNode->proximo; // Move para o próximo evento
+
+        eventoCadastrado = eventoCadastrado->proximo; // próximo evento a ser verificado
     }
 
-    if (!participanteEncontradoEmAlgumEvento) {
-        if (!nomeJaImpresso) { // Se o nome não foi impresso, significa que o RA não foi encontrado em nenhum evento.
-             printf("Participante de RA %s não está inscrito em nenhum evento ou não foi encontrado.\n", RA);
-        }
-    }
+    // SE PASSOU PELO LOOP, NÃO HOUVE CONFLITOS
+    return true; // novo evento é válido para o cadastro
+
 
 }
 
 
+bool cancelarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
 
-//1. declara as variaveis q eu vou usar
-//2. vai procurar enquanto o que
-//3. como vai andar na lista
-//4. se nao encontrar, vai fazer o que
-//5. se encontrar, vai fazer o que
-
-//--------------FUNÇÃO QUE REMOVE PARTICIPANTE, FEITO POR ISABELLA VICENTE --------------------
-bool removerParticipantes(ListaParticipantes* lista, const char* raProcurado) {
-//procura e retorna true se achar e remover, e false se não achar
-    NodeParticipante* atual=lista->head->proximo;
-    //declaro atual do tipo NodeParticipante dizendo para ele começar em uma valor real do começo da lista
-    NodeParticipante* anterior= lista->head;
-    //declaro anterior do tipo NodeParticipante dizendo para ele começar em 1 posicao antes do valor real
-    //do começo da lista, mas como nao tem pq nao começou a andar ainda, é null
-    NodeParticipante* raEncontrado = buscarParticipante(lista, raProcurado);
-    //declara raEcontrado do tipo ListaParticipantes aplicando buscarParticipante
-    if(raEncontrado == NULL){
-        printf("\nParticipante não encontrado\n");
+    // VERIFICA SE A LISTA POSSUI CONTEÚDOS
+    if(listaEventos == NULL){
+        perror("Lista de eventos já está vazia.");
         return false;
     }
-    while(atual!=NULL && strcmp(atual->dadosParticipante.ra, raEncontrado->dadosParticipante.ra)!=0){
-    //atual vai andar e passar o dado para anterior até achar o que quer
-        anterior=atual;
-        //atual passa o dado que ele acabou de ver para anterior, salvando o dado
-        atual=atual->proximo;
-        //atual anda para o proximo elemento, e ler o dado
-    }
-    if (atual == NULL) {
-        return false; // Participant not found, nothing to remove.
-    }
-    anterior->proximo=atual->proximo;
-    //atual vai dizer quem é o proximo para o anterior, para ele nao ficar perdido
-    free(atual);
-    //libera ra da memoria
-    printf("\nparticipante removido com sucesso!\n");
-    return true;
-    //retorna que deu certo
 
+    // PEGA O PRIMEIRO NÓ A PARTIR DO CABEÇALHO
+    NodeEvento* atual = listaEventos->head->proximo;
+
+    // PEGA O NÓ ANTERIOR(CABEÇALHO)
+    NodeEvento* anterior = listaEventos->head;
+
+    // PERCORRE A LISTA DE EVENTOS PARA VER SE ELE EXISTE
+    while(atual != NULL && atual->evento->codigo != codigoEvento){
+        // PEGA O EVENTO ATUAL E ARMAZENA NA AUXILIAR
+        anterior = atual;
+        // PEGA O PRÓXIMO EVENTO E ARMAZENA NA ATUAL
+        atual= atual->proximo;
+    }
+
+    // AVISA QUE O EVENTO NÃO FOI ENCONTRADO
+    if(atual == NULL){
+        printf("\nEvento de código %02d não encontrado na lista\n", codigoEvento);
+        return false;
+    }
+
+    // VERIFICA SE EXISTE UM EVENTO CADASTRADO NAQUELE NÓ
+    if(atual->evento == NULL){
+        printf("\nErro: Nó da lista encontrado, mas o evento dentro dele é nulo.\n");
+
+        // LIBERA O NÓ MESMO SE NÃO POSSUIR NENHUM EVENTO CADASTRADO
+        anterior->proximo = atual->proximo;
+        free(atual);
+
+        return false;
+    }
+
+    // ARMAZENA O NOME EM UMA AUXILIAR
+    // const char nomeEvento[100];
+    // strcpy(nomeEvento, atual->evento->nome);
+
+
+
+    printf("\nCancelando evento de código %02d (%s)\n", codigoEvento, atual->evento->nome);
+
+    // ARMAZENA O PONTEIRO DO PRÓXIMO EVENTO DEPOIS DO ATUAL NA AUXILIAR
+    anterior->proximo = atual->proximo;
+
+    // LIBERA O EVENTO DA MEMÓRIA
+    free(atual->evento);
+    // LIBERA O NÓ DO EVENTO DA MEMÓRIA
+    free(atual);
+
+    listaEventos->quantidadeEventos--;
+    printf("\nEvento de código %02d cancelado com sucesso\n", codigoEvento);
+
+    return true;
 }
 
-//lista=head,1,2,3,4,5,6,7
-//lista=head,atual/proximo
-//lista=anterior/head,atual/proximo
+
+void destruirListaEventos(GerenciadorEventos* listaEventos){
+ // VERIFICA SE A LISTA POSSUI CONTEÚDOS
+    if(listaEventos == NULL){
+        perror("Lista de eventos já está vazia.");
+        free(listaEventos);
+        return;
+    }
+
+    // PEGA O PRIMEIRO NÓ A PARTIR DO CABEÇALHO
+    NodeEvento* atual = listaEventos->head->proximo;
+
+    // PEGA O NÓ ANTERIOR(CABEÇALHO)
+    NodeEvento* proximo;
+
+    // PERCORRE A LISTA DE EVENTOS PARA VER SE ELE EXISTE
+    while(atual != NULL){
+        // ARMAZENA O PRÓXIMO EVENTO NA AUXILIAR
+        proximo = atual->proximo;
+
+        if(atual->evento != NULL){
+            // LIBERA A LISTA DE INSCRITOS NO EVENTO
+            // liberarListaParticipantes(&(atual->evento->inscritos));
+
+            // LIBERA O EVENTO
+            free(atual->evento);
+        }
+
+        // LIBERA O NÓ DO EVENTO
+        free(atual);
+
+        // ARMAZENA O PRÓXIMO NÓ DE EVENTO
+        atual = proximo;
+
+    }
+
+    // LIBERANDO O CABEÇALHO
+    free(listaEventos->head);
+
+    // LIBERA A LISTA DE EVENTOS
+    free(listaEventos);
+
+    printf("Lista de Eventos e gerenciador destruídos com sucesso");
+
+}

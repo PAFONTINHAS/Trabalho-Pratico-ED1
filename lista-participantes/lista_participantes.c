@@ -24,7 +24,8 @@ void imprimirLista(Evento* evento){
     ListaParticipantes* listaEvento = evento->inscritos;
 
     if(evento->inscritos->head->proximo == NULL){
-        printf("Lista de inscritos vazia!");
+        printf("\nLista de inscritos vazia!\n");
+        printf("\n----------------------------------\n");
         return;
     }
 
