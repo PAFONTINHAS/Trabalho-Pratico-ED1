@@ -10,9 +10,10 @@
 
 
 //Procedimento para inicializar lista de participantes
-void inicializarLista(ListaParticipantes* lista){
+void inicializarLista(ListaParticipantes* lista, int codigoEvento){
     Participante* inicio = (Participante*) malloc(sizeof(Participante));
-
+    
+    lista->head->codigoEvento = codigoEvento;
     lista->head = inicio;
     lista->head->proximo = NULL;
     lista->quantidade = 0;
@@ -20,7 +21,6 @@ void inicializarLista(ListaParticipantes* lista){
 
 void imprimirLista(ListaParticipantes* lista, int codigoEvento, GerenciadorEventos* listaEventos){
     Evento* evento = buscarEvento(listaEventos, codigoEvento);
-    ListaParticipantes* listaEvento = selecionarLista(lista, codigoEvento);
 
     if(evento->inscritos->head == NULL){
         printf("Lista de inscritos vazia!");

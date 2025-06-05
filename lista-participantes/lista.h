@@ -17,13 +17,13 @@ typedef struct NodeParticipante
 typedef struct{
     NodeParticipante* head;
     int quantidade;
+    int codigoEvento;
 } ListaParticipantes; // Controla UMA lista de participantes para UM evento
 
-void inicializarLista(ListaParticipantes* lista);
-ListaParticipantes* selecionarLista(ListaParticipantes* lista, int codigoEvento);
+void inicializarLista(ListaParticipantes* lista, int codigoEvento);
+//ListaParticipantes* selecionarLista(ListaParticipantes* lista, int codigoEvento);
 void imprimirLista(ListaParticipantes* lista, int codigoEvento, GerenciadorEventos* listaEventos);
-
-void apagarListaParticipantes(ListaParticipantes* lista);
+// void apagarListaParticipantes(ListaParticipantes* lista);
 
 // aqui não possuímos uma lista que possui várias listas de eventos, e sim uma lista para cada evento
 // então ao liberar a lista de participantes, quer dizer que estamos liberando a lista de participantes
