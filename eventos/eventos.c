@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include <stdbool.h>
 #include "eventos.h"
-#include "lista-participantes/lista.h"
+#include "../estruturas.h"
+#include "../lista-participantes/lista_participantes.h"
+
+
 
 GerenciadorEventos* inicializarGerenciadorEventos(){
 
@@ -78,8 +80,7 @@ void cadastrarNovoEvento(GerenciadorEventos* listaEventos, int codigo, const cha
     }
 
     // INICIALIZANDO A LISTA DE INSCRITOS PARA O EVENTO
-    evento->inscritos.head = NULL;
-    evento->inscritos.quantidade = 0;
+    evento->inscritos = inicializarLista();
 
     // ALOCANDO UM ESPAÇO NA MEMÓRIA PARA O NÓ DE EVENTOS
     NodeEvento* node = (NodeEvento*) malloc(sizeof(NodeEvento));
@@ -99,7 +100,7 @@ void cadastrarNovoEvento(GerenciadorEventos* listaEventos, int codigo, const cha
     // ATUALIZANDO A QUANTIDADE DE EVENTOS CADASTRADOS
     listaEventos->quantidadeEventos++;
 
-    printf("Evento %s (codigo %d) cadastrado com sucesso", nome, codigo);
+    printf("\nEvento '%s'(código: %d) cadastrado com sucesso", nome, codigo);
 
 
 }
@@ -128,8 +129,8 @@ bool validarData(int dia, int mes, int ano, int hora, int minuto){
     int diasNoMes[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     // ATRIBUI UM DIA A MAIS A FEVEREIRO
-    if(mes == 2 && ehAnoBissexto){
-        diasNoMes[2] == 29;
+    if(mes == 2 && ehAnoBissexto(ano)){
+        diasNoMes[2] = 29;
     }
 
     // VERIFICA SE O DIA É MAIOR QUE O MES RESPECTIVO
@@ -155,11 +156,11 @@ bool ehAnoBissexto(int ano){
     return ano % 4 == 0;
 }
 
-void buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
+Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     // VERIFICA SE A LISTA POSSUI CONTEÚDOS
     if(listaEventos == NULL){
-        perror("Lista de eventos vazia");
-        return;
+        perror("\nLista de eventos vazia");
+        return NULL;
     }
 
     // PEGA O PRIMEIRO NÓ A PARTIR DO CABEÇALHO
@@ -172,8 +173,8 @@ void buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
 
     // AVISA QUE O EVENTO NÃO FOI ENCONTRADO
     if(atual == NULL){
-        perror("Evento não encontrado");
-        return;
+        printf("\nEvento de codigo %d nao encontrado", codigoEvento);
+        return NULL;
     }
 
     // ARMAZENA A DATA DO EVENTO EM UMA STRUCT DATA
@@ -183,8 +184,11 @@ void buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     printf("Codigo: %d", atual->evento->codigo);
     printf("\nNome do evento: %s", atual->evento->nome);
     printf("\nLocal: %s", atual->evento->localEvento);
-    printf( "\nData: %02d/%02d/%d às %02d:%02d.", data.dia, data.mes, data.ano, data.hora, data.minuto);
-    printf("-------------------------\n");
+    printf("\nData: %02d/%02d/%d às %02d:%02d.", data.dia, data.mes, data.ano, data.hora, data.minuto);
+    printf("\n----------------------------------\n");
+
+    Evento* evento = atual->evento;
+    return evento;
 
 }
 
@@ -282,13 +286,13 @@ bool cancelarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
 
     // AVISA QUE O EVENTO NÃO FOI ENCONTRADO
     if(atual == NULL){
-        printf("Evento de código %02d não encontrado na lista\n", codigoEvento);
+        printf("\nEvento de código %02d não encontrado na lista\n", codigoEvento);
         return false;
     }
 
     // VERIFICA SE EXISTE UM EVENTO CADASTRADO NAQUELE NÓ
     if(atual->evento == NULL){
-        printf(stderr, "Erro: Nó da lista encontrado, mas o evento dentro dele é nulo.\n");
+        printf("\nErro: Nó da lista encontrado, mas o evento dentro dele é nulo.\n");
 
         // LIBERA O NÓ MESMO SE NÃO POSSUIR NENHUM EVENTO CADASTRADO
         anterior->proximo = atual->proximo;
@@ -298,10 +302,12 @@ bool cancelarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     }
 
     // ARMAZENA O NOME EM UMA AUXILIAR
-    const char* nomeEvento[100];
-    strcpy(nomeEvento, atual->evento->nome);
+    // const char nomeEvento[100];
+    // strcpy(nomeEvento, atual->evento->nome);
 
-    printf("Cancelando evento de código %02d (%s)", codigoEvento, nomeEvento);
+
+
+    printf("\nCancelando evento de código %02d (%s)\n", codigoEvento, atual->evento->nome);
 
     // ARMAZENA O PONTEIRO DO PRÓXIMO EVENTO DEPOIS DO ATUAL NA AUXILIAR
     anterior->proximo = atual->proximo;
@@ -312,7 +318,7 @@ bool cancelarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     free(atual);
 
     listaEventos->quantidadeEventos--;
-    printf("Evento de código %02d cancelado com sucesso", codigoEvento);
+    printf("\nEvento de código %02d cancelado com sucesso\n", codigoEvento);
 
     return true;
 }
@@ -339,7 +345,7 @@ void destruirListaEventos(GerenciadorEventos* listaEventos){
 
         if(atual->evento != NULL){
             // LIBERA A LISTA DE INSCRITOS NO EVENTO
-            liberarListaParticipantes(&(atual->evento->inscritos));
+            // liberarListaParticipantes(&(atual->evento->inscritos));
 
             // LIBERA O EVENTO
             free(atual->evento);
