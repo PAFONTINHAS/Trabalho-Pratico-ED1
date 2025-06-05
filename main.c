@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,17 +25,19 @@ menu:
 void criarEvento(GerenciadorEventos* listaEventos);
 void mostrarEventoEspecifico(GerenciadorEventos* listaEventos);
 void inserirParticipante(GerenciadorEventos* listaEventos);
+bool inscreverParticipanteEmEvento(const char* nome, const char* ra, Evento* evento);
+void gerarRelatorioIndividual(GerenciadorEventos* listaEventos);
 
 void menuEscolhas(){
-    printf("\n1. Criar um evento"); // Completo
+    printf("\n1. Criar um evento"); // Completo - Já implementado na main
     printf("\n2. Mostrar todos os eventos cadastrados"); // Incompleto (Peter)
-    printf("\n3. Buscar evento específico"); // Completo
-    printf("\n4. Ver participantes de um evento"); // Completo
+    printf("\n3. Buscar evento específico"); // Completo - Já implementado na main
+    printf("\n4. Ver participantes de um evento"); // Incompleto
     printf("\n5. Remover um evento"); // Incompleto (Peter)
-    printf("\n6. Remover participantes de um evento"); // Incompleto (?)
-    printf("\n7. Inserir participantes em um evento"); // Incompleto (?)
-    printf("\n8. Emitir relatório de participacao individual"); // Incompleto (?)
-    printf("\n9. Emitir relatório de presenca"); // Incompleto
+    printf("\n6. Remover participantes de um evento"); // Incompleto (G)
+    printf("\n7. Inserir participantes em um evento"); // Completo (JV)
+    printf("\n8. Emitir relatório de participacao individual"); // Completo (JV)
+    //printf("\n9. Emitir relatório de presenca"); // Incompleto
 }
 
 int main(){
@@ -47,7 +50,7 @@ int main(){
     printf("\nInserindo pré eventos:");
     cadastrarNovoEvento(listaEventos, 1, "Festa Universitária", 12, 10, 2025, 21, 30, "Bar do Pedrão");
     cadastrarNovoEvento(listaEventos, 2, "Chá das 8", 15, 06, 2025, 8, 00, "Casa da Judite");
-    cadastrarNovoEvento(listaEventos, 3, "Hackathon", 10, 10, 2025, 8, 00, "UFPR Agrárias");
+    cadastrarNovoEvento(listaEventos, 3, "Agro-hackathon", 10, 10, 2025, 8, 00, "UFPR Agrárias");
     printf("\nEventos inseridos\nRedirecionando para a página inicial.");
     Sleep(1000);
     printf(".");
@@ -83,7 +86,10 @@ int main(){
             case 7:
                 inserirParticipante(listaEventos);
             break;
-            // case 8:
+            case 8:
+                gerarRelatorioIndividual(listaEventos);
+            break;
+            // case 9:
             // break;
             case 0:
                 printf("Saindo do sistema...");
@@ -149,7 +155,6 @@ void criarEvento(GerenciadorEventos* listaEventos){
 
 }
 
-
 void mostrarEventoEspecifico(GerenciadorEventos* listaEventos){
     printf("\n\tOpcao 3: Buscar evento específico ");
 
@@ -195,16 +200,19 @@ void mostrarEventoEspecifico(GerenciadorEventos* listaEventos){
 }
 
 void inserirParticipante(GerenciadorEventos* listaEventos){
-
+    
     // Procurar evento
     int codigoEvento;
     printf("\n\nDigite o código do evento: ");
     scanf("%d", &codigoEvento);
     getchar();
-    Evento* evento = buscarEvento(listaEventos, codigoEvento);
 
+    //Busca o evento
+    Evento* evento = buscarEvento(listaEventos, codigoEvento);
+    
     if(evento == NULL){
-        printf("Evento não encontrado");
+        printf("\nPressione uma tecla para voltar à tela inicial");
+        getchar();
         return;
     }
 
@@ -218,13 +226,27 @@ void inserirParticipante(GerenciadorEventos* listaEventos){
     fgets(ra, sizeof(ra), stdin);
     ra[strcspn(ra, "\n")] = 0; // Remove o \n
 
+    printf("\nProcessando inscrição...\n");
     // Inscrever participantes
-    inscreverParticipanteEmEvento(nome, ra, evento);
+    bool sucessoInscricao = inscreverParticipanteEmEvento(nome, ra, evento);
     Sleep(2000);
 
-    // Imprimir a lista com o participante
-    imprimirLista(evento);
-    printf("\nPressione uma tecla para voltar à tela inicial");
-    getchar();
-    return;
+    if(sucessoInscricao){
+        printf("\nImpriminado lista de participantes do evento '%s'.\n", evento->nome);\
+        imprimirLista(evento);
+        printf("\nPressione uma tecla para voltar à tela inicial");
+        getchar();
+        return;
+    } else {
+        printf("\nErro ao inscrever participante. Verifique se o RA já está cadastrado ou se o evento existe.\n");
+    }
+};
+
+void gerarRelatorioIndividual(GerenciadorEventos* listaEventos) {
+    char ra[20];
+    printf("\nDigite o RA do participante para gerar o relatório: ");
+    getchar(); // Limpa o '\n' deixado pelo scanf anterior
+    fgets(ra, sizeof(ra), stdin);
+    ra[strcspn(ra, "\n")] = 0; // Remove o \n
+    emitirRelatorioIndividual(ra, listaEventos);
 }
