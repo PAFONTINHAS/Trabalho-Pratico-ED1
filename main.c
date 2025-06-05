@@ -28,7 +28,7 @@ void inserirParticipante(GerenciadorEventos* listaEventos);
 
 void menuEscolhas(){
     printf("\n1. Criar um evento"); // Completo
-    printf("\n2. Mostrar todos os eventos cadastrados"); // Completo
+    printf("\n2. Mostrar todos os eventos cadastrados"); // Incompleto (Peter)
     printf("\n3. Buscar evento específico"); // Completo
     printf("\n4. Ver participantes de um evento"); // Completo
     printf("\n5. Remover um evento"); // Incompleto (Peter)
@@ -70,9 +70,9 @@ int main(){
             case 1:
                 criarEvento(listaEventos);
             break;
-            case 2:
-                mostrarTodosEventos(listaEventos);
-            break;
+            // case 2:
+            //     mostrarTodosEventos(listaEventos);
+            // break;
             case 3:
                 mostrarEventoEspecifico(listaEventos);
             break;
@@ -200,16 +200,16 @@ void mostrarEventoEspecifico(GerenciadorEventos* listaEventos){
 
 void verListaParticipantes(GerenciadorEventos* listaEventos){
     int codigo;
-    
+
     printf("Digite o código do evento: ");
     scanf("%d", &codigo);
-    
+
     Evento* evento = buscarEvento(listaEventos, codigo);
-    
+
     if (evento != NULL){
         imprimirLista(evento);
     }
-    
+
 }
 
 void removerParticipante(GerenciadorEventos* listaEventos){
@@ -273,11 +273,3 @@ void inserirParticipante(GerenciadorEventos* listaEventos){
     return;
 }
 
-void mostrarTodosEventos(GerenciadorEventos* listaEventos){
-    printf("Aqui estão todos os eventos: \n");
-    mostrarTodosOsEventos();
-    system("cls");
-    printf("\nVoltando para a página inicial...\n");
-    Sleep(2000);
-    printf("\n/-----------------------------------------------------------------------------/\n");
-}
