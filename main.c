@@ -21,6 +21,7 @@ menu:
 */
 
 // ANTES DE CRIAR A FUNÇÃO, MENCIONE ELA AQUI.
+void removerParticipante(GerenciadorEventos* listaEventos);
 void criarEvento(GerenciadorEventos* listaEventos);
 void mostrarEventoEspecifico(GerenciadorEventos* listaEventos);
 void inserirParticipante(GerenciadorEventos* listaEventos);
@@ -78,8 +79,9 @@ int main(){
             // break;
             // case 5:
             // break;
-            // case 6:
-            // break;
+            case 6:
+            removerParticipante(listaEventos);
+            break;
             case 7:
                 inserirParticipante(listaEventos);
             break;
@@ -184,7 +186,7 @@ void mostrarEventoEspecifico(GerenciadorEventos* listaEventos){
     if(respostaOpcao == 'S' || respostaOpcao == 's'){
         imprimirLista(evento);
         // FUNÇÃO DE BUSCAR A LISTA DE PARTICIPANTES(imprimirListaParticipante)
-        // PARAMETROS: ListaParticipantes* lista, int codigoEvento, GerenciadorEvenos* listaEventos
+        // PARAMETROS: ListaParticipantes* lista, int codigoEvento, GerenciadorEventos* listaEventos
 
     }
 
@@ -192,6 +194,32 @@ void mostrarEventoEspecifico(GerenciadorEventos* listaEventos){
     getchar();
 
     return;
+}
+
+void removerParticipante(GerenciadorEventos* listaEventos){
+    int codigo;
+    char ra[20];
+    
+    printf("Digite o código do evento: ");
+    scanf("%d", &codigo);
+    getchar();
+    
+    Evento* evento = buscarEvento(listaEventos, codigo);
+    
+    if(evento != NULL){
+    
+        printf("Digite o RA do participante: ");
+        fgets(ra, sizeof(ra), stdin);
+        ra[strcspn(ra, "\n")] = 0; // Remove o \n
+        
+        ListaParticipantes* lista = evento->inscritos;
+      
+        bool removido = removerParticipantes(lista, ra);
+    }
+    
+    printf("\nVoltando para a página inicial...\n");
+    Sleep(2000);
+    printf("\n/-----------------------------------------------------------------------------/\n");
 }
 
 void inserirParticipante(GerenciadorEventos* listaEventos){
