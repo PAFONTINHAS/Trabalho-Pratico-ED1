@@ -10,7 +10,7 @@ bool validarEvento(GerenciadorEventos* listaEventos, Evento* evento);
 Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento);
 bool cancelarEvento(GerenciadorEventos* listaEventos, int codigoEvento);
 void destruirListaEventos(GerenciadorEventos* listaEventos);
-
+void mostrarTodosOsEventos(GerenciadorEventos* listaEventos);
 // MANIPULADORES DE DATA
 bool ehAnoBissexto(int ano);
 bool validarData(int dia, int mes, int ano, int hora, int minuto);

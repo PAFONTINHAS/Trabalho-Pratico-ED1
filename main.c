@@ -1,13 +1,12 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include "estruturas.h"
 #include "eventos/eventos.h"
 #include "participantes/participantes.h"
 #include "lista-participantes/lista_participantes.h"
-#include "estruturas.h"
-
-#include <ctype.h>
 /*
 menu:
     1 - criar evento cadastrarNovoEvento()
@@ -80,7 +79,7 @@ int main(){
             // case 5:
             // break;
             case 6:
-            removerParticipante(listaEventos);
+                removerParticipante(listaEventos);
             break;
             case 7:
                 inserirParticipante(listaEventos);
@@ -199,24 +198,24 @@ void mostrarEventoEspecifico(GerenciadorEventos* listaEventos){
 void removerParticipante(GerenciadorEventos* listaEventos){
     int codigo;
     char ra[20];
-    
+
     printf("Digite o código do evento: ");
     scanf("%d", &codigo);
     getchar();
-    
+
     Evento* evento = buscarEvento(listaEventos, codigo);
-    
+
     if(evento != NULL){
-    
+
         printf("Digite o RA do participante: ");
         fgets(ra, sizeof(ra), stdin);
         ra[strcspn(ra, "\n")] = 0; // Remove o \n
-        
+
         ListaParticipantes* lista = evento->inscritos;
-      
+
         bool removido = removerParticipantes(lista, ra);
     }
-    
+
     printf("\nVoltando para a página inicial...\n");
     Sleep(2000);
     printf("\n/-----------------------------------------------------------------------------/\n");
