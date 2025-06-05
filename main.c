@@ -28,7 +28,7 @@ void inserirParticipante(GerenciadorEventos* listaEventos);
 
 void menuEscolhas(){
     printf("\n1. Criar um evento"); // Completo
-    printf("\n2. Mostrar todos os eventos cadastrados"); // Incompleto (Peter)
+    printf("\n2. Mostrar todos os eventos cadastrados"); // Completo
     printf("\n3. Buscar evento específico"); // Completo
     printf("\n4. Ver participantes de um evento"); // Completo
     printf("\n5. Remover um evento"); // Incompleto (Peter)
