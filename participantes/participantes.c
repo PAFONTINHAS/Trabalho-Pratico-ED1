@@ -33,11 +33,11 @@ bool inscreverParticipanteEmEvento(const char* nome, const char* ra, Evento* eve
 
     strncpy(novoParticipante->dadosParticipante.nome, nome, sizeof(novoParticipante->dadosParticipante.nome) - 1);
     novoParticipante->dadosParticipante.nome[sizeof(novoParticipante->dadosParticipante.nome) - 1] = '\0';
-    
+
     novoParticipante->proximo = NULL;
 
     // Inserindo o participitante na lista de inscritos do evento
-    NodeParticipante* ultimo = evento->inscritos->head; 
+    NodeParticipante* ultimo = evento->inscritos->head;
     while (ultimo->proximo != NULL) { // Encontra o último nó real
         ultimo = ultimo->proximo;
     }
@@ -62,20 +62,20 @@ void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge) {
         printf("\nErro: Não há eventos cadastrados no sistema.\n");
         return;
     }
-    
+
     printf("\nRelatório Individual para RA %s: \n", RA);
 
     //criando variáveis auxiliares para percorrer a lista de eventos
     // e verificar se o participante está inscrito em algum evento
     NodeEvento* eventoAtualNode = ge->head->proximo;
     bool participanteEncontrado = false;
-    
+
     //verifica se o primeiro nó de evento é nulo
     // se for, significa que não há eventos cadastrados
     if (eventoAtualNode == NULL) {
         printf("Nenhum evento cadastrado no sistema.\n");
     }
-    
+
     //aqui começa a percorrer a lista de eventos
     //enquanto o nó atual de evento não for nulo
     while (eventoAtualNode != NULL) {
@@ -83,10 +83,10 @@ void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge) {
             // Verifica se a lista de inscritos do evento atual existe e tem um cabeçalho
             if (eventoAtualNode->evento->inscritos != NULL && eventoAtualNode->evento->inscritos->head != NULL) {
                 NodeParticipante* participanteNode = eventoAtualNode->evento->inscritos->head->proximo; // Atribui o primeiro nó real da lista de inscritos
-                while (participanteNode != NULL) { //enquanto o nó atual de participante não for nulo 
+                while (participanteNode != NULL) { //enquanto o nó atual de participante não for nulo
                     //compara o RA do participante atual com o RA fornecido
                     //se forem iguais, significa que o participante está inscrito neste evento
-                    if (strcmp(participanteNode->dadosParticipante.ra, RA) == 0) { //compara o RA do participante atual com o RA fornecido                       
+                    if (strcmp(participanteNode->dadosParticipante.ra, RA) == 0) { //compara o RA do participante atual com o RA fornecido
                         //mostra os eventos em que o participante está inscrito
                         printf(" - Evento: %s (Código: %d)\n", eventoAtualNode->evento->nome, eventoAtualNode->evento->codigo);
                         participanteEncontrado = true;
@@ -102,7 +102,7 @@ void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge) {
     if (!participanteEncontrado) {
         printf("Participante de RA '%s' não encontrado em nenhum evento.\n", RA);
     }
-    
+
     printf("--- Fim do Relatório ---\n");
     printf("\nPressione uma tecla para voltar à tela inicial");
     getchar();
@@ -140,13 +140,14 @@ bool removerParticipantes(ListaParticipantes* lista, const char* raProcurado) {
         //atual anda para o proximo elemento, e ler o dado
     }
     if (atual == NULL) {
+        printf("Participante não encontrado");
         return false; // participante nao encontrado
-    } 
+    }
     anterior->proximo=atual->proximo;
     //atual vai dizer quem é o proximo para o anterior, para ele nao ficar perdido
     free(atual);
     //libera ra da memoria
-    printf("\nparticipante removido com sucesso!\n");
+    printf("\nParticipante removido com sucesso!\n");
     return true;
     //retorna que deu certo
 

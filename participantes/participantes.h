@@ -12,4 +12,3 @@ bool removerParticipantes( ListaParticipantes* lista, const char* ra);
 
 #endif
 
-void inserir_participante(lista)

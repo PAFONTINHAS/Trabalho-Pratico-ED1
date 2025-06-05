@@ -5,7 +5,6 @@
 typedef struct {
     char ra[20];
     char nome[100];
-    int presente; // rand() % 1: entre 0 e 1. OPCIONAL(talvez)
 } Participante;
 
 // NÓ QUE LIGA TODOS OS PARTICIPANTES A UMA SÓ LISTA (LISTA DINÂMICA)

@@ -331,6 +331,10 @@ void mostrarTodosOsEventos(GerenciadorEventos* listaEventos){
     }
 
     NodeEvento* atual = listaEventos->head->proximo;
+    if(atual == NULL){
+        printf("Nenhum evento cadastrado");
+        return;
+    }
     Evento* evento;
     DataEvento data;
 
@@ -342,13 +346,12 @@ void mostrarTodosOsEventos(GerenciadorEventos* listaEventos){
         printf("\nNome do evento: %s", evento->nome);
         printf("\nData do evento: %02d/%02d/%04d às %02d:%02d", data.dia, data.mes, data.ano, data.hora, data.minuto );
         printf("\nLocal do evento: %s", evento->localEvento);
-        printf("\n/--------------------------------------------/");
 
         atual = atual->proximo;
     }
 
     if(atual == NULL){
-        printf("Lista de Eventos vazia");
+        printf("\n/-----------------fim-da-lista---------------/\n");
         return;
     }
 
@@ -376,7 +379,7 @@ void destruirListaEventos(GerenciadorEventos* listaEventos){
 
         if(atual->evento != NULL){
             // LIBERA A LISTA DE INSCRITOS NO EVENTO
-            // liberarListaParticipantes(&(atual->evento->inscritos));
+            apagarListaParticipantes(atual->evento->inscritos);
 
             // LIBERA O EVENTO
             free(atual->evento);

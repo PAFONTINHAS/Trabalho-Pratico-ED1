@@ -8,8 +8,8 @@
 ListaParticipantes* inicializarLista();
 // ListaParticipantes* selecionarLista(ListaParticipantes* lista, int codigoEvento);
 void imprimirLista(Evento* evento);
-// void apagarListaParticipantes(ListaParticipantes* lista);
 NodeParticipante* buscarParticipante(ListaParticipantes* lista, const char* raProcurado); // FEITO POR ISABELLA VICENTE
+void apagarListaParticipantes(ListaParticipantes* lista);
 
 
 // aqui não possuímos uma lista que possui várias listas de eventos, e sim uma lista para cada evento
