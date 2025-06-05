@@ -19,20 +19,22 @@ menu:
     7 - finalizar evento //opcional
     8 - cancelar //opcional
 */
+
+// ANTES DE CRIAR A FUNÇÃO, MENCIONE ELA AQUI.
 void criarEvento(GerenciadorEventos* listaEventos);
 void mostrarEventoEspecifico(GerenciadorEventos* listaEventos);
 void inserirParticipante(GerenciadorEventos* listaEventos);
 
 void menuEscolhas(){
-    printf("\n1. Criar um evento");
-    printf("\n2. Mostrar todos os eventos cadastrados");
-    printf("\n3. Buscar evento específico");
-    printf("\n4. Ver participantes de um evento");
-    printf("\n5. Remover um evento");
-    printf("\n6. Remover participantes de um evento");
-    printf("\n7. Inserir participantes em um evento");
-    printf("\n8. Emitir relatório de participacao individual");
-    printf("\n9. Emitir relatório de presenca");
+    printf("\n1. Criar um evento"); // Completo
+    printf("\n2. Mostrar todos os eventos cadastrados"); // Incompleto (Peter)
+    printf("\n3. Buscar evento específico"); // Completo
+    printf("\n4. Ver participantes de um evento"); // Completo
+    printf("\n5. Remover um evento"); // Incompleto (Peter)
+    printf("\n6. Remover participantes de um evento"); // Incompleto (?)
+    printf("\n7. Inserir participantes em um evento"); // Incompleto (?)
+    printf("\n8. Emitir relatório de participacao individual"); // Incompleto (?)
+    printf("\n9. Emitir relatório de presenca"); // Incompleto
 }
 
 int main(){
@@ -44,11 +46,8 @@ int main(){
 
     printf("\nInserindo pré eventos:");
     cadastrarNovoEvento(listaEventos, 1, "Festa Universitária", 12, 10, 2025, 21, 30, "Bar do Pedrão");
-    Sleep(1000);
     cadastrarNovoEvento(listaEventos, 2, "Chá das 8", 15, 06, 2025, 8, 00, "Casa da Judite");
-    Sleep(1000);
     cadastrarNovoEvento(listaEventos, 3, "Hackathon", 10, 10, 2025, 8, 00, "UFPR Agrárias");
-    Sleep(1000);
     printf("\nEventos inseridos\nRedirecionando para a página inicial.");
     Sleep(1000);
     printf(".");
@@ -62,8 +61,9 @@ int main(){
     menuEscolhas();
     printf("\nOpcao: ");
     scanf("%d", &opcao);
-    while(opcao != 0){
 
+    while(opcao != 0){
+        // ADICIONEM SUAS FUNÇÕES NOS CASES
         switch (opcao){
             case 1:
                 criarEvento(listaEventos);
@@ -105,6 +105,7 @@ int main(){
 
 
 }
+// CONTINUEM SUAS FUNÇÕES AQUI
 
 // funcao de criar evento
 void criarEvento(GerenciadorEventos* listaEventos){
@@ -187,7 +188,7 @@ void mostrarEventoEspecifico(GerenciadorEventos* listaEventos){
 
     }
 
-    printf("Pressione uma tecla para voltar à tela inicial");
+    printf("\nPressione uma tecla para voltar à tela inicial");
     getchar();
 
     return;
