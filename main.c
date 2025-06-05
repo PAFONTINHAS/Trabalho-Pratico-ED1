@@ -70,9 +70,9 @@ int main(){
             case 1:
                 criarEvento(listaEventos);
             break;
-            // case 2:
-            //     mostrarTodosEventos(listaEventos);
-            // break;
+            case 2:
+                mostrarTodosEventos(listaEventos);
+            break;
             case 3:
                 mostrarEventoEspecifico(listaEventos);
             break;
@@ -273,3 +273,11 @@ void inserirParticipante(GerenciadorEventos* listaEventos){
     return;
 }
 
+void mostrarTodosEventos(GerenciadorEventos* listaEventos){
+    printf("Aqui estão todos os eventos: \n");
+    mostrarTodosOsEventos();
+    system("cls");
+    printf("\nVoltando para a página inicial...\n");
+    Sleep(2000);
+    printf("\n/-----------------------------------------------------------------------------/\n");
+}

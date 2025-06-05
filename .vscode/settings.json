@@ -8,7 +8,8 @@
         "unistd.h": "c",
         "lista_participantes.h": "c",
         "stdlib.h": "c",
-        "estruturas.h": "c"
+        "estruturas.h": "c",
+        "string.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
