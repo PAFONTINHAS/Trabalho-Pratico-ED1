@@ -1,5 +1,6 @@
 #ifndef ESTRUTURAS_H
 #define ESTRUTURAS_H
+
 // ESTRUTURA DOS PARTICIPANTES
 typedef struct {
     char ra[20];

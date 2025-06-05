@@ -1,2 +1,6 @@
 #ignore files in .vscode
 .vscode/
+#ignore .o files
+*.o
+#ignore .exe files
+*.exe
