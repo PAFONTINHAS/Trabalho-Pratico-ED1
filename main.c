@@ -273,3 +273,24 @@ void inserirParticipante(GerenciadorEventos* listaEventos){
     return;
 }
 
+void mostrarTodosEventos(GerenciadorEventos* listaEventos){
+    printf("Aqui estão todos os eventos: \n");
+    mostrarTodosOsEventos();
+    system("cls");
+    printf("\nVoltando para a página inicial...\n");
+    Sleep(2000);
+    printf("\n/-----------------------------------------------------------------------------/\n");
+}
+
+void removerEvento(GerenciadorEventos* listaEventos){
+    int codigoEvento;
+    printf("Digite o código do evento");
+    scanf("%d",&codigoEvento);
+//add destruir lista
+    Evento* evento= buscarEvento(listaEventos, codigoEvento);
+    if(evento==NULL){
+        printf("Evento não encontrado");
+        return; //evento nao encontrado
+    }
+    cancelarEvento(listaEventos, codigoEvento);
+}

@@ -140,6 +140,7 @@ bool removerParticipantes(ListaParticipantes* lista, const char* raProcurado) {
     NodeParticipante* raEncontrado = buscarParticipante(lista, raProcurado);
     //declara raEcontrado do tipo ListaParticipantes aplicando buscarParticipante
     if(raEncontrado == NULL){
+        //verificação de segurança, caso nao encontre ra
         printf("\nParticipante não encontrado\n");
         return false;
     }
@@ -151,8 +152,8 @@ bool removerParticipantes(ListaParticipantes* lista, const char* raProcurado) {
         //atual anda para o proximo elemento, e ler o dado
     }
     if (atual == NULL) {
-        return false; // Participant not found, nothing to remove.
-    }
+        return false; // participante nao encontrado
+    } 
     anterior->proximo=atual->proximo;
     //atual vai dizer quem é o proximo para o anterior, para ele nao ficar perdido
     free(atual);
