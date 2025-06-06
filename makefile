@@ -5,24 +5,27 @@ CC = gcc
 EVENTOS_DIR = eventos
 PARTICIPANTES_DIR = participantes
 LISTA_DIR = lista-participantes
+CONTROLLER_DIR = controller
 
 # Arquivos fonte
 SRCS = main.c \
        $(EVENTOS_DIR)/eventos.c \
        $(PARTICIPANTES_DIR)/participantes.c \
-       $(LISTA_DIR)/lista_participantes.c
+       $(LISTA_DIR)/lista_participantes.c \
+       $(CONTROLLER_DIR)/controller.c
 
 # Arquivos objeto
 OBJS = main.o \
        eventos.o \
        participantes.o \
-       lista_participantes.o
+       lista_participantes.o \
+       controller.o
 
 # Executável
 TARGET = eventos.exe
 
 # Flags
-CFLAGS = -Wall -Wextra -I. -I$(EVENTOS_DIR) -I$(PARTICIPANTES_DIR) -I$(LISTA_DIR)
+CFLAGS = -Wall -Wextra -I. -I$(EVENTOS_DIR) -I$(PARTICIPANTES_DIR) -I$(LISTA_DIR) -I$(CONTROLLER_DIR)
 
 # Regra padrão
 all: $(TARGET)
@@ -43,6 +46,9 @@ participantes.o: $(PARTICIPANTES_DIR)/participantes.c
 
 lista_participantes.o: $(LISTA_DIR)/lista_participantes.c
 	$(CC) $(CFLAGS) -c $(LISTA_DIR)/lista_participantes.c -o lista_participantes.o
+
+controller.o: $(CONTROLLER_DIR)/controller.c
+	$(CC) $(CFLAGS) -c $(CONTROLLER_DIR)/controller.c -o controller.o
 
 # Limpar arquivos objeto e executável
 clean:
