@@ -52,6 +52,12 @@ int main(){
                 gerarRelatorioIndividual(listaEventos);
             break;
             case 9:
+                preencherListaPresenca(listaEventos);
+            break;
+            case 10:
+                gerarRelatorioPresenca(listaEventos);
+            break;
+            case 11:
                 apagarListaEventos(&listaEventos);
             break;
             case 0:

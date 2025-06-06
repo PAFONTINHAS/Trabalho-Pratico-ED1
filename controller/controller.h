@@ -20,7 +20,8 @@ void removerEvento(GerenciadorEventos* listaEventos);// 5
 void inserirParticipante(GerenciadorEventos* listaEventos); // 6
 void removerParticipante(GerenciadorEventos* listaEventos); // 7
 void gerarRelatorioIndividual(GerenciadorEventos* listaEventos);// 8
-void apagarListaEventos(GerenciadorEventos** listaEventos); // 9
-
+void preencherListaPresenca(GerenciadorEventos* listaEventos); //9
+void gerarRelatorioPresenca(GerenciadorEventos* listaEventos); // 10
+void apagarListaEventos(GerenciadorEventos** listaEventos); // 11
 
 #endif

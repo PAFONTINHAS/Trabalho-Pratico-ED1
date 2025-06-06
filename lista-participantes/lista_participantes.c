@@ -77,3 +77,46 @@ void apagarListaParticipantes(ListaParticipantes* lista) {
     lista->head = NULL; // quando terminar o loop(liberou a memoria de todos os nós), a lista é sinalizade como vazia
     lista->quantidade = 0;  //lista sem nenhum elemento, atualiza o campo quantidade
 }
+
+void emitirListaPresenca(Evento* evento){
+    // Evento* evento = buscarEvento(listaEventos, codigoEvento);
+    ListaParticipantes* listaEvento = evento->inscritos;
+
+    if(evento->inscritos->head->proximo == NULL){
+        printf("\nLista de inscritos vazia!\n");
+        printf("\n----------------------------------\n");
+        return;
+    }
+
+    NodeParticipante* participante = listaEvento->head->proximo;
+
+    int i = 1;
+    printf("\nEVENTO : %s \n Lista de Presença:", evento->nome);
+    printf("\nParticipantes que compareceram:\n");
+    while(participante != NULL){
+        if(participante->dadosParticipante.presenca){
+
+            printf("\n%d. Nome: %s, RA: %s", i, participante->dadosParticipante.nome, participante->dadosParticipante.ra);
+        }
+        participante = participante->proximo;
+        i++;
+    }
+
+    // retorna pro início da lista
+    participante = listaEvento->head->proximo;
+    printf("\n/------------------------------------/\n");
+    printf("\nParticipantes que não compareceram:\n");
+    while(participante != NULL){
+        if(!participante->dadosParticipante.presenca){
+
+            printf("\n%d. Nome: %s, RA: %s", i, participante->dadosParticipante.nome, participante->dadosParticipante.ra);
+        }
+        participante = participante->proximo;
+        i++;
+    }
+
+    if(participante == NULL){
+        printf("\n------------Fim-da-lista--------------\n");
+    }
+
+}

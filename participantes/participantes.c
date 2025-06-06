@@ -34,6 +34,7 @@ bool inscreverParticipanteEmEvento(const char* nome, const char* ra, Evento* eve
     strncpy(novoParticipante->dadosParticipante.nome, nome, sizeof(novoParticipante->dadosParticipante.nome) - 1);
     novoParticipante->dadosParticipante.nome[sizeof(novoParticipante->dadosParticipante.nome) - 1] = '\0';
 
+    novoParticipante->dadosParticipante.presenca = false;
     novoParticipante->proximo = NULL;
 
     // Inserindo o participitante na lista de inscritos do evento
@@ -150,6 +151,22 @@ bool removerParticipanteDeEvento(ListaParticipantes* lista, const char* raProcur
     //retorna que deu certo
 
 }
+
+void confirmarPresencaParticipante(NodeParticipante* nodeParticipante){
+    if(nodeParticipante == NULL){
+        printf("Participante não encontrado");
+        return;
+    }
+
+    Participante* participante = &nodeParticipante->dadosParticipante;
+    participante->presenca = true;
+    printf("Participante:\n");
+    printf("Nome: %s\n", participante->nome);
+    printf("RA: %s\n", participante->ra);
+    printf("Presença confirmada\n");
+
+}
+
 
 //lista=head,1,2,3,4,5,6,7
 //lista=head,atual/proximo

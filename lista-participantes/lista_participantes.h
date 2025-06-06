@@ -10,5 +10,5 @@ ListaParticipantes* inicializarLista();
 void imprimirLista(Evento* evento);
 NodeParticipante* buscarParticipante(ListaParticipantes* lista, const char* raProcurado); // FEITO POR ISABELLA VICENTE
 void apagarListaParticipantes(ListaParticipantes* lista);
-
+void emitirListaPresenca(Evento* evento);
 #endif

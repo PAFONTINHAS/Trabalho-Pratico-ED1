@@ -9,6 +9,7 @@
 bool inscreverParticipanteEmEvento(const char* nome, const char* ra, Evento* evento);
 void emitirRelatorioIndividual(const char* RA,  GerenciadorEventos* ge); // todos os eventos que o participante se inscreveu
 bool removerParticipanteDeEvento( ListaParticipantes* lista, const char* ra);
+void confirmarPresencaParticipante(NodeParticipante* participante);
 
 #endif
 

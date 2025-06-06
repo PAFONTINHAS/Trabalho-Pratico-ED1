@@ -1,6 +1,13 @@
 #ifndef ESTRUTURAS_H
 #define ESTRUTURAS_H
 
+
+/*
+    /-----------------------------------/
+   /      FEATURE PARTICIPANTES        /
+  /-----------------------------------/
+
+*/
 // ESTRUTURA DOS PARTICIPANTES
 typedef struct {
     char ra[20];
@@ -8,6 +15,14 @@ typedef struct {
     bool presenca; // retorna true or false
 } Participante;
 
+
+
+/*
+    /----------------------------------------/
+   /     FEATURE LISTA PARTICIPANTES        /
+  /----------------------------------------/
+
+*/
 // NÓ QUE LIGA TODOS OS PARTICIPANTES A UMA SÓ LISTA (LISTA DINÂMICA)
 typedef struct NodeParticipante
 {
@@ -23,6 +38,16 @@ typedef struct{
 } ListaParticipantes; // Controla UMA lista de participantes para UM evento
 
 struct ListaParticipantes;
+
+
+
+
+/*
+    /-----------------------------/
+   /     FEATURE EVENTOS         /
+  /-----------------------------/
+
+*/
 
 // ESTRUTURA DE DATA E HORA PARA CADA EVENTO
 typedef struct{

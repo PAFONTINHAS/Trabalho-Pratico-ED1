@@ -19,6 +19,8 @@ void menuEscolhas(){
     printf("\n6. Inserir um participante em um evento");
     printf("\n7. Remover um participante em um evento");
     printf("\n8. Emitir relatório de participação individual");
+    printf("\n9. Confirmar presença de participante");
+    printf("\n10. Emitir de Relatório de presença");
     printf("\n9. Apagar lista de eventos");
     printf("\n0. Sair");
 }
@@ -50,6 +52,7 @@ bool validarInputNumerico(const char* input) {
  * @param prompt A mensagem a ser exibida para o usuário (ex: "Digite o código: ").
  * @return O número inteiro validado.
  */
+
 int lerInteiroValidado(const char* prompt) {
     char buffer[20]; // Um buffer para ler a entrada como string, 20 é suficiente para um int
     bool entradaValida = false;
@@ -398,8 +401,62 @@ void gerarRelatorioIndividual(GerenciadorEventos* listaEventos) {
     ra[strcspn(ra, "\n")] = 0; // Remove o \n
     emitirRelatorioIndividual(ra, listaEventos);
 
+
     voltarAoMenu();
 
+}
+
+
+void preencherListaPresenca(GerenciadorEventos* listaEventos){
+    char ra[20];
+    int codigoEvento = lerInteiroValidado("\nDigite o código do evento:");
+    Evento* evento = conferirCodigoEvento(listaEventos, codigoEvento);
+
+    if(evento == NULL){
+        voltarAoMenu();
+        return;
+    }
+
+    printf("\nEvento encontrado: ");
+    imprimirEvento(evento);
+
+    printf("Lista de participantes: ");
+    imprimirLista(evento);
+
+    printf("\nDigite o RA do participante para registrar a presença: ");
+    fgets(ra, sizeof(ra), stdin);
+    ra[strcspn(ra, "\n")] = 0; // Remove o \n
+
+    NodeParticipante* nodeParticipante = buscarParticipante(evento->inscritos, ra);
+
+    if(nodeParticipante == NULL){
+        printf("Participante não encontrado");
+        voltarAoMenu();
+        return;
+    }
+
+
+    confirmarPresencaParticipante(nodeParticipante);
+    voltarAoMenu();
+    return;
+}
+
+void gerarRelatorioPresenca(GerenciadorEventos* listaEventos){
+    int codigoEvento = lerInteiroValidado("\nDigite o código do evento: ");
+    Evento* evento = conferirCodigoEvento(listaEventos, codigoEvento);
+
+    if(evento == NULL){
+        voltarAoMenu();
+        return;
+    }
+
+    printf("\nEvento encontrado: ");
+    imprimirEvento(evento);
+
+    emitirListaPresenca(evento);
+
+    voltarAoMenu();
+    return;
 }
 
 /**
