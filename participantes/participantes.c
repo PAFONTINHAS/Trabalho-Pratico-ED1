@@ -104,8 +104,6 @@ void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge) {
     }
 
     printf("--- Fim do Relatório ---\n");
-    printf("\nPressione uma tecla para voltar à tela inicial");
-    getchar();
     return;
 }
 
@@ -118,7 +116,7 @@ void emitirRelatorioIndividual(const char* RA, GerenciadorEventos* ge) {
 //5. se encontrar, vai fazer o que
 
 //--------------FUNÇÃO QUE REMOVE PARTICIPANTE, FEITO POR ISABELLA VICENTE --------------------
-bool removerParticipantes(ListaParticipantes* lista, const char* raProcurado) {
+bool removerParticipanteDeEvento(ListaParticipantes* lista, const char* raProcurado) {
 //procura e retorna true se achar e remover, e false se não achar
     NodeParticipante* atual=lista->head->proximo;
     //declaro atual do tipo NodeParticipante dizendo para ele começar em uma valor real do começo da lista

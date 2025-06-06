@@ -11,6 +11,8 @@ Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento);
 bool cancelarEvento(GerenciadorEventos* listaEventos, int codigoEvento);
 void destruirListaEventos(GerenciadorEventos* listaEventos);
 void mostrarTodosOsEventos(GerenciadorEventos* listaEventos);
+void imprimirEvento(Evento* evento);
+Evento* conferirCodigoEvento(GerenciadorEventos* listaEventos, int codigo);
 // MANIPULADORES DE DATA
 bool ehAnoBissexto(int ano);
 bool validarData(int dia, int mes, int ano, int hora, int minuto);

@@ -1,8 +1,10 @@
 #include <stdio.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include "eventos.h"
+#include "../controller/controller.h"
 #include "../estruturas.h"
 #include "../lista-participantes/lista_participantes.h"
 
@@ -173,23 +175,25 @@ Evento* buscarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
 
     // AVISA QUE O EVENTO NÃO FOI ENCONTRADO
     if(atual == NULL){
-        printf("\nEvento de codigo %d nao encontrado\n", codigoEvento);
+        // printf("\nEvento de codigo %d nao encontrado\n", codigoEvento);
         return NULL;
     }
 
     // ARMAZENA A DATA DO EVENTO EM UMA STRUCT DATA
-    DataEvento data = atual->evento->dataEvento;
-
-    // MOSTRA O EVENTO NA TELA
-    printf("Codigo: %d", atual->evento->codigo);
-    printf("\nNome do evento: %s", atual->evento->nome);
-    printf("\nLocal: %s", atual->evento->localEvento);
-    printf("\nData: %02d/%02d/%d às %02d:%02d.", data.dia, data.mes, data.ano, data.hora, data.minuto);
-    printf("\n----------------------------------\n");
-
+    // DataEvento data = atual->evento->dataEvento;
     Evento* evento = atual->evento;
     return evento;
 
+}
+
+void imprimirEvento(Evento* evento){
+    DataEvento data = evento->dataEvento;
+    // MOSTRA O EVENTO NA TELA
+    printf("Codigo: %d", evento->codigo);
+    printf("\nNome do evento: %s", evento->nome);
+    printf("\nLocal: %s", evento->localEvento);
+    printf("\nData: %02d/%02d/%d às %02d:%02d.", data.dia, data.mes, data.ano, data.hora, data.minuto);
+    printf("\n----------------------------------\n");
 }
 
 
@@ -305,10 +309,6 @@ bool cancelarEvento(GerenciadorEventos* listaEventos, int codigoEvento){
     // const char nomeEvento[100];
     // strcpy(nomeEvento, atual->evento->nome);
 
-
-
-    printf("\nCancelando evento de código %02d (%s)\n", codigoEvento, atual->evento->nome);
-
     // ARMAZENA O PONTEIRO DO PRÓXIMO EVENTO DEPOIS DO ATUAL NA AUXILIAR
     anterior->proximo = atual->proximo;
 
@@ -345,7 +345,7 @@ void mostrarTodosOsEventos(GerenciadorEventos* listaEventos){
         printf("\n/---------------código:-%d-------------------/\n", evento->codigo);
         printf("\nNome do evento: %s", evento->nome);
         printf("\nData do evento: %02d/%02d/%04d às %02d:%02d", data.dia, data.mes, data.ano, data.hora, data.minuto );
-        printf("\nLocal do evento: %s", evento->localEvento);
+        printf("\nLocal do evento: %s\n", evento->localEvento);
 
         atual = atual->proximo;
     }
@@ -401,4 +401,41 @@ void destruirListaEventos(GerenciadorEventos* listaEventos){
 
     printf("Lista de Eventos e gerenciador destruídos com sucesso");
 
+}
+
+
+Evento* conferirCodigoEvento(GerenciadorEventos* listaEventos, int codigo){
+    Evento* evento = buscarEvento(listaEventos, codigo);
+    char respostaOpcao;
+
+    printf("Procurando código de evento");
+    efeitoDelay(1);
+
+
+    while(evento == NULL){
+        printf("\nEvento de código %d não encontrado", codigo);
+        printf("\nDeseja procurar por outro código?(S/N)");
+        printf("\nResposta: ");
+        scanf(" %c", &respostaOpcao);
+        respostaOpcao = toupper(respostaOpcao);
+        getchar();
+        while(respostaOpcao != 'S' && respostaOpcao != 'N'){
+            printf("\n Opcao inválida.");
+            printf("\nDeseja procurar por outro código?(S/N)");
+            printf("\nResposta: ");
+            scanf(" %c", &respostaOpcao);
+            respostaOpcao = toupper(respostaOpcao);
+            getchar();
+        }
+        if(respostaOpcao == 'N'){
+            return NULL;
+        }
+
+        codigo = lerInteiroValidado("Digite o código do evento: ");
+        evento = buscarEvento(listaEventos, codigo);
+        printf("Procurando código de evento");
+        efeitoDelay(1);
+    }
+
+    return evento;
 }

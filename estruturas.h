@@ -5,6 +5,7 @@
 typedef struct {
     char ra[20];
     char nome[100];
+    bool presenca; // retorna true or false
 } Participante;
 
 // NÓ QUE LIGA TODOS OS PARTICIPANTES A UMA SÓ LISTA (LISTA DINÂMICA)

@@ -56,3 +56,5 @@ clean:
 
 # PHONY evita conflitos com arquivos chamados "all" ou "clean"
 .PHONY: all clean
+
+

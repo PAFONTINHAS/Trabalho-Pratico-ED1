@@ -8,7 +8,7 @@
 // NodeParticipante* buscarParticipante(struct ListaParticipantes* lista, const char* raProcurado);
 bool inscreverParticipanteEmEvento(const char* nome, const char* ra, Evento* evento);
 void emitirRelatorioIndividual(const char* RA,  GerenciadorEventos* ge); // todos os eventos que o participante se inscreveu
-bool removerParticipantes( ListaParticipantes* lista, const char* ra);
+bool removerParticipanteDeEvento( ListaParticipantes* lista, const char* ra);
 
 #endif
 

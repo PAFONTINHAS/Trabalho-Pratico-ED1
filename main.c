@@ -19,13 +19,11 @@ int main(){
     //funcao de mock
     preencherEventosEParticipantes(listaEventos);
     system("cls");
-    
-    printf("\n\n\tPágina Inicial");
-    printf("\nEscolha uma opcao:");
-    menuEscolhas();
-    printf("\nOpcao: ");
-    scanf("%d", &opcao);
 
+    printf("\n\n\tPágina Inicial");
+    printf("\nEscolha uma opcao");
+    menuEscolhas();
+    opcao = lerInteiroValidado("\nOpcao: ");
     while(opcao != 0){
         // ADICIONEM SUAS FUNÇÕES NOS CASES
         switch (opcao){
@@ -65,17 +63,14 @@ int main(){
         // Exemplo de correção no final do loop while:
         printf("\nEscolha uma opcao:");
         menuEscolhas();
-        printf("\nOpcao: ");
-        scanf("%d", &opcao);
+        opcao = lerInteiroValidado("\nOpcao: ");
+
 
     }
 
     printf("Sistema Finalizado.\nPressione para sair...");
-    getchar(); // Consome o newline do último scanf
     getchar(); // Espera pelo Enter do usuário
 
 
 }
-// CONTINUEM SUAS FUNÇÕES AQUI
 
-// funcao de criar evento
