@@ -21,7 +21,7 @@ void menuEscolhas(){
     printf("\n8. Emitir relatório de participação individual");
     printf("\n9. Confirmar presença de participante");
     printf("\n10. Emitir de Relatório de presença");
-    printf("\n9. Apagar lista de eventos");
+    printf("\n11. Apagar lista de eventos");
     printf("\n0. Sair");
 }
 
@@ -464,7 +464,7 @@ void gerarRelatorioPresenca(GerenciadorEventos* listaEventos){
  * @param listaEventos Ponteiro duplo para o gerenciador de eventos.
  */
 void apagarListaEventos(GerenciadorEventos** listaEventos){
-    printf("\n\tOpcao 9: Apagar lista de eventos");
+    printf("\n\tOpcao 11: Apagar lista de eventos");
     char respostaOpcao;
     printf("\nDeseja mesmo apagar a lista de eventos?\n Todos os eventos e seus participantes serão deletados(S/N)");
     printf("\nResposta: ");
